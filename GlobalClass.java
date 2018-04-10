@@ -44,4 +44,6 @@ public class GlobalClass {
 			{ quitMenu, viewCourse, enrolCourse, dropCourse, applyWaivers } };
 
 	public static String waiverGrade = "WAIVED";
+	public static Boolean isWaived = true;
+	public static Boolean isNotWaived = false;
 }

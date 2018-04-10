@@ -2,12 +2,11 @@ package SEF;
 
 public class Enrolment {
 
-	private Student _student = new Student();
 	private String _studentID;
 	private String _courseCode;
 	private String _semester;
 	private String _grade;
-	private String _waiver;
+	private Boolean _waiver;
 
 	public Enrolment() {
 
@@ -23,11 +22,36 @@ public class Enrolment {
 		_studentID = userID;
 		_courseCode = courseCode;
 		_semester = semester;
-		_grade = grade;
+		if (grade.equals(GlobalClass.waiverGrade))
+			_waiver = true;
+		else
+			_grade = grade;
 	}
 
-	public Boolean isStudentEnrolled() {
-		return true;
+	public Enrolment(String userID, String courseCode, String semester, String grade, Boolean waived) {
+		_studentID = userID;
+		_courseCode = courseCode;
+		_semester = semester;
+		if (grade.equals(GlobalClass.waiverGrade) | (waived))
+			_waiver = waived;
+		else
+			_grade = grade;
+	}
+
+	public Enrolment(String userID, String courseCode, String semester, Boolean waived) {
+		_studentID = userID;
+		_courseCode = courseCode;
+		_semester = semester;
+		_waiver = waived;
+	}
+
+	public Boolean isStudentEnrolled(String userID, String courseCode, String semester) {
+		return (_studentID.equals(userID) & _courseCode.equals(courseCode) & _semester.equals(semester) ? true : false);
+
+	}
+
+	public Boolean hasWaiver() {
+		return _waiver;
 	}
 
 	public String getStudentID() {
@@ -47,8 +71,9 @@ public class Enrolment {
 	}
 
 	public void setGrade(String grade) {
-		_grade = grade;
-
+		if (grade.equals(GlobalClass.waiverGrade))
+			_waiver = true;
+		else
+			_grade = grade;
 	}
-
 }

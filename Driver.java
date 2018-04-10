@@ -66,12 +66,8 @@ public class Driver {
 					String userID = input.next();
 					String courseCode = input.next();
 					String semester = input.next();
-					String grade = input.next();
-					if (grade.equals(GlobalClass.waiverGrade)) {
-						Enrolment e = new Enrolment(userID, courseCode, semester, grade);
-						_enrolment.add(e);
-					}
-
+					Enrolment e = new Enrolment(userID, courseCode, semester, GlobalClass.isWaived);
+					_enrolment.add(e);
 				}
 			}
 		}
