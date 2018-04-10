@@ -16,24 +16,18 @@ public class Enrolment {
 		_studentID = userID;
 		_courseCode = courseCode;
 		_semester = semester;
+		_grade = "";
+		_waiver = false;
 	}
 
 	public Enrolment(String userID, String courseCode, String semester, String grade) {
 		_studentID = userID;
 		_courseCode = courseCode;
 		_semester = semester;
+		_grade = "";
+		_waiver = false;
 		if (grade.equals(GlobalClass.waiverGrade))
 			_waiver = true;
-		else
-			_grade = grade;
-	}
-
-	public Enrolment(String userID, String courseCode, String semester, String grade, Boolean waived) {
-		_studentID = userID;
-		_courseCode = courseCode;
-		_semester = semester;
-		if (grade.equals(GlobalClass.waiverGrade) | (waived))
-			_waiver = waived;
 		else
 			_grade = grade;
 	}
@@ -42,6 +36,7 @@ public class Enrolment {
 		_studentID = userID;
 		_courseCode = courseCode;
 		_semester = semester;
+		_grade = "";
 		_waiver = waived;
 	}
 

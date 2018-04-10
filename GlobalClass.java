@@ -46,4 +46,6 @@ public class GlobalClass {
 	public static String waiverGrade = "WAIVED";
 	public static Boolean isWaived = true;
 	public static Boolean isNotWaived = false;
+
+	public static int maxLoad = 3;
 }

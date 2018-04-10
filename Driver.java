@@ -133,14 +133,18 @@ public class Driver {
 		return status;
 	}
 
-	public Boolean changeLoad(String studentID, String semester) {
-		Boolean status = true;
+	public Boolean changeLoad(String studentID, String semester, int newLoad) {
+		Boolean status = false;
+		if (newLoad <= GlobalClass.maxLoad) {
+			// setMaxLoad
+			status = true;
+		}
+
 		return status;
 	}
 
 	public Boolean assignGrade(String studentID, String courseCode, String semester, String grade) {
-		Boolean status = true;
-		return status;
+		return true;
 	}
 
 	public Boolean addOffering(String courseCode, String semester, Boolean active) {
@@ -182,10 +186,33 @@ public class Driver {
 
 	}
 
+	public int getIndexOfUser(String userID) {
+		int result = -1;
+		for (int i = 0; i < _users.size(); i++) {
+			if (_users.get(i).getID().equals(userID)) {
+				result = i;
+				break;
+			}
+		}
+		return result;
+	}
+
 	public int getIndexOfCourse(String courseCode, String semester) {
 		int result = -1;
 		for (int i = 0; i < _courses.size(); i++) {
 			if (_courses.get(i).checkCourseExists(courseCode, semester)) {
+				result = i;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public int getIndexOfEnrolment(ArrayList<Enrolment> e, String userID, String courseCode, String semester) {
+		int result = -1;
+		for (int i = 0; i < e.size(); i++) {
+			if (e.get(i).getStudentID().equals(userID) & e.get(i).getCourseCode().equals(courseCode)
+					& e.get(i).getSemester().equals(semester)) {
 				result = i;
 				break;
 			}

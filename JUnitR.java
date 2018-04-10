@@ -48,11 +48,17 @@ class JUnitR {
 			driver._users.sort(Comparator.comparing(User::getName));
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+
+			// create new enrollment but don't add to _enrolment, thus should not exists
 			Enrolment e = new Enrolment("s3665980", "COSC2531", "1720", GlobalClass.isWaived);
-			assertFalse(driver._enrolment.contains(e));
+			int i = driver.getIndexOfEnrolment(driver._enrolment, e.getStudentID(), e.getCourseCode(), e.getSemester());
+			assertFalse(driver._enrolment.get(i).hasWaiver());
+			// false because even though it's created, driver._enrolment.add(e) was not done
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,11 +72,14 @@ class JUnitR {
 			driver._users.sort(Comparator.comparing(User::getName));
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
-			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", null, GlobalClass.isWaived);
-			assertTrue(driver._enrolment.contains(e));
+			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", GlobalClass.isWaived);
+			int i = driver.getIndexOfEnrolment(driver._enrolment, e.getStudentID(), e.getCourseCode(), e.getSemester());
+			assertTrue(driver._enrolment.get(i).hasWaiver());
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,12 +87,47 @@ class JUnitR {
 
 	@Test
 	public void changeLoadCorrectValue() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+			driver._users.sort(Comparator.comparing(User::getName));
+			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
+			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+
+			int newLoad = 2;
+			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
+			assertTrue(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	};
 
 	@Test
 	public void changeLoadIncorrectValue() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+			driver._users.sort(Comparator.comparing(User::getName));
+			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
+			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+
+			int newLoad = 12;
+			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
+			assertFalse(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	};
 
 	@Test

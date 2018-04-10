@@ -15,6 +15,7 @@ public class Student extends User {
 
 	public void setMaxLoad(int i) {
 		_maxLoad = i;
+
 	}
 
 	public int getMaxLoad() {
