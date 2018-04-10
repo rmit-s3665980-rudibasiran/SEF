@@ -1,5 +1,7 @@
 package SEF;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
@@ -40,12 +42,37 @@ class JUnitR {
 
 	@Test
 	public void addNewExemption() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+			driver._users.sort(Comparator.comparing(User::getName));
+			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
+			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", GlobalClass.waiverGrade);
+			assertTrue(driver._enrolment.contains(e));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	};
 
 	@Test
 	public void addExistingExemption() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+			driver._users.sort(Comparator.comparing(User::getName));
+			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
+			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+			Enrolment e = new Enrolment("s3665980", "COSC2531", "1720", GlobalClass.waiverGrade);
+			assertFalse(driver._enrolment.contains(e));
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	};
 
 	@Test
