@@ -48,8 +48,8 @@ class JUnitR {
 			driver._users.sort(Comparator.comparing(User::getName));
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
-			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", GlobalClass.waiverGrade);
-			assertTrue(driver._enrolment.contains(e));
+			Enrolment e = new Enrolment("s3665980", "COSC2531", "1720", GlobalClass.waiverGrade);
+			assertFalse(driver._enrolment.contains(e));
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
@@ -66,8 +66,9 @@ class JUnitR {
 			driver._users.sort(Comparator.comparing(User::getName));
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
-			Enrolment e = new Enrolment("s3665980", "COSC2531", "1720", GlobalClass.waiverGrade);
-			assertFalse(driver._enrolment.contains(e));
+			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", GlobalClass.waiverGrade);
+			assertTrue(driver._enrolment.contains(e));
+
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
 		} catch (Exception e) {

@@ -2,6 +2,7 @@ package SEF;
 
 public class Enrolment {
 
+	private Student _student = new Student();
 	private String _studentID;
 	private String _courseCode;
 	private String _semester;

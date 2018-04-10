@@ -7,6 +7,10 @@ public class User {
 	private String _password;
 	private String _name;
 
+	public User() {
+
+	}
+
 	public User(String userID, String password) {
 		_userID = userID;
 		_password = password;
