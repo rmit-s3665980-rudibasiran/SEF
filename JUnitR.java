@@ -25,11 +25,11 @@ class JUnitR {
 						+ " | " + GlobalClass.roleDesc[driver._users.get(i).getRole()]);
 
 			for (int i = 0; i < driver._courses.size(); i++)
-				System.out.println("Course: " + driver._courses.get(i).getCourseCode() + " | "
-						+ driver._courses.get(i).getSemester() + " | " + driver._courses.get(i).getCourseTitle());
+				System.out.println("Course: " + driver._courses.get(i).getCourseCode() + " | " + " | "
+						+ driver._courses.get(i).getCourseTitle());
 
 			for (int i = 0; i < driver._enrolment.size(); i++)
-				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudentID() + " | "
+				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + " | "
 						+ driver._enrolment.get(i).getCourseCode() + " | " + driver._enrolment.get(i).getSemester()
 						+ " | " + driver._enrolment.get(i).getGrade());
 
@@ -50,9 +50,10 @@ class JUnitR {
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
 
 			// create new enrollment but don't add to _enrolment, thus should not exists
-			Enrolment e = new Enrolment("s3665980", "COSC2531", "1720", GlobalClass.isWaived);
-			int i = driver.getIndexOfEnrolment(driver._enrolment, e.getStudentID(), e.getCourseCode(), e.getSemester());
-			assertFalse(driver._enrolment.get(i).hasWaiver());
+			User u = driver._users.get(driver.getIndexOfUser("s3665980"));
+			Student s = (Student) u;
+			Enrolment e = new Enrolment(s, "COSC2531", "1720");
+
 			// false because even though it's created, driver._enrolment.add(e) was not done
 
 		} catch (FileNotFoundException e) {
@@ -72,9 +73,9 @@ class JUnitR {
 			driver._users.sort(Comparator.comparing(User::getName));
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
-			Enrolment e = new Enrolment("s3665980", "ISYS1055", "1720", GlobalClass.isWaived);
-			int i = driver.getIndexOfEnrolment(driver._enrolment, e.getStudentID(), e.getCourseCode(), e.getSemester());
-			assertTrue(driver._enrolment.get(i).hasWaiver());
+			User u = driver._users.get(driver.getIndexOfUser("s3665980"));
+			Student s = (Student) u;
+			Enrolment e = new Enrolment(s, "COSC2531", "1720");
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
@@ -139,20 +140,18 @@ class JUnitR {
 			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
 			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
 
-			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
-			int i = driver.getIndexOfUser(userID);
-			User u = driver._users.get(i);
-			Student s = (Student) u;
-
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, userID, "1810") + " | MaxLoad = "
-					+ s.getMaxLoad());
 			int newLoad = 1;
-			Enrolment e = new Enrolment(userID, "COSC1295", "1810");
-			driver._enrolment.add(e);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, userID, "1810") + " | MaxLoad = "
+			User u = driver._users.get(driver.getIndexOfUser("s3665980"));
+			Student s = (Student) u;
+			Enrolment e = new Enrolment(s, "COSC2531", "1720");
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
 					+ s.getMaxLoad());
-			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, userID, "1810")
-					& driver.changeLoad(userID, "1810", newLoad));
+
+			driver._enrolment.add(e);
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
+					+ s.getMaxLoad());
+			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), "1810")
+					& driver.changeLoad(s.getID(), "1810", newLoad));
 
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");

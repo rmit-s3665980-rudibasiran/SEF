@@ -12,13 +12,20 @@ Admin;a3685849;Huani Neupane;1234
 Admin;a3665980;Rudi Basiran;1234
 Admin;a3705295;Ahdeiah Gurgani;1234
 ProgramCoordinator;e23456;Margeret Hamilton;1234
-Course;ISYS1117;1810;Software Engineering Fundamentals;This course is designed to provide you opportunity to gain knowledge and skills necessary to analyze, design and implement complex software engineering projects. You should learn to analyze and design fairly complex real-life systems, working as teams. The project based approach used requires you to review and refine your design iteratively based on regular feedback from staff.
-Course;COSC2531;1810;Programming Fundamentals;Programming skill represents a generic problem solving ability, and is considered essential for anyone involved in the development and maintenance of software systems.
-Course;COSC2737;1810;IT Infrastructure and Security;This course aims to provide a broad introduction to the fundamentals of web and data communication, network and associated security concepts and technology. The emphasis is on the higher level aspects of these topics from the perspective of computer scientists and information technologists; the course covers the underlying mechanisms and their characteristics that need to be considered by communicating application software.
-Course;COSC1182;1810;Usability Engineering;This course introduces you to concepts, methods and techniques that you can apply to design and conduct usability studies, building on your practical experience with software system analysis and design, and with writing and testing code. You will learn the theory and practice of various approaches, methods and techniques, and apply these to acquire practical experience in conducting usability studies for interactive systems.
-Course;ISYS1055;1810;Database Concepts;This course is an introduction to the principles, use, and applications of database systems. It assumes no previous knowledge of databases or database technologies. This course focuses on developing skills in designing databases for efficient data management and SQL programming for querying and using databases for various database applications.
-Course;COSC1295;1810;Advanced Programming;This course extends the study of basic programming principles introduced in Programming Fundamentals. Advanced concepts of program design, implementation and testing will be introduced within a framework of object oriented programming using the Java programming language.
-Course;COSC2615;1810;Advanced Professional Development;This course provides a practical and theoretical introduction to what it means to be an IT professional today. You should encounter a range of issues relevant to professional practice in the work-place.
+Course;ISYS1117;Software Engineering Fundamentals;This course is designed to provide you opportunity to gain knowledge and skills necessary to analyze, design and implement complex software engineering projects. You should learn to analyze and design fairly complex real-life systems, working as teams. The project based approach used requires you to review and refine your design iteratively based on regular feedback from staff.
+Course;COSC2531;Programming Fundamentals;Programming skill represents a generic problem solving ability, and is considered essential for anyone involved in the development and maintenance of software systems.
+Course;COSC2737;IT Infrastructure and Security;This course aims to provide a broad introduction to the fundamentals of web and data communication, network and associated security concepts and technology. The emphasis is on the higher level aspects of these topics from the perspective of computer scientists and information technologists; the course covers the underlying mechanisms and their characteristics that need to be considered by communicating application software.
+Course;COSC1182;Usability Engineering;This course introduces you to concepts, methods and techniques that you can apply to design and conduct usability studies, building on your practical experience with software system analysis and design, and with writing and testing code. You will learn the theory and practice of various approaches, methods and techniques, and apply these to acquire practical experience in conducting usability studies for interactive systems.
+Course;ISYS1055;Database Concepts;This course is an introduction to the principles, use, and applications of database systems. It assumes no previous knowledge of databases or database technologies. This course focuses on developing skills in designing databases for efficient data management and SQL programming for querying and using databases for various database applications.
+Course;COSC1295;Advanced Programming;This course extends the study of basic programming principles introduced in Programming Fundamentals. Advanced concepts of program design, implementation and testing will be introduced within a framework of object oriented programming using the Java programming language.
+Course;COSC2615;Advanced Professional Development;This course provides a practical and theoretical introduction to what it means to be an IT professional today. You should encounter a range of issues relevant to professional practice in the work-place.
+CourseOffering;ISYS1117;1810
+CourseOffering;COSC2531;1810
+CourseOffering;COSC2737;1810
+CourseOffering;COSC1182;1810
+CourseOffering;ISYS1055;1810
+CourseOffering;COSC1295;1810
+CourseOffering;COSC2615;1810
 Enrolment;s3665980;ISYS1117;1810
 Enrolment;s3587842;ISYS1117;1810
 Enrolment;s3706098;ISYS1117;1810
@@ -26,4 +33,4 @@ Enrolment;s3685849;ISYS1117;1810
 Enrolment;s3705295;ISYS1117;1810
 Enrolment;s3665980;COSC2531;1720;HD
 Enrolment;s3685849;COSC2531;1720;HD
-Waiver;s3665980;ISYS1055;1720
+Waiver;s3665980;COSC1182;1810;Had prior qualifications

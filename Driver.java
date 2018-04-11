@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Driver {
 
 	ArrayList<Course> _courses = new ArrayList<>();
+	ArrayList<CourseOffering> _courseOffering = new ArrayList<>();
 	ArrayList<User> _users = new ArrayList<>();
 	ArrayList<Enrolment> _enrolment = new ArrayList<>();
 
@@ -50,24 +51,37 @@ public class Driver {
 
 				} else if (role.equals("Course")) {
 					String courseCode = input.next();
-					String semester = input.next();
 					String title = input.next();
 					String desc = input.next();
-					_courses.add(new Course(courseCode, semester, title, desc));
+					_courses.add(new Course(courseCode, title, desc));
+
+				} else if (role.equals("CourseOffering")) {
+					String courseCode = input.next();
+					String semester = input.next();
+					_courseOffering.add(new CourseOffering(courseCode, semester));
 
 				} else if (role.equals("Enrolment")) {
+
 					String userID = input.next();
 					String courseCode = input.next();
 					String semester = input.next();
-					Enrolment e = new Enrolment(userID, courseCode, semester);
+
+					int i = getIndexOfUser(userID);
+					User u = _users.get(i);
+					Student s = (Student) u;
+
+					Enrolment e = new Enrolment(s, courseCode, semester);
 					_enrolment.add(e);
 
 				} else if (role.equals("Waiver")) {
 					String userID = input.next();
 					String courseCode = input.next();
 					String semester = input.next();
-					Enrolment e = new Enrolment(userID, courseCode, semester, GlobalClass.isWaived);
-					_enrolment.add(e);
+					String reason = input.next();
+
+					User u = _users.get(getIndexOfUser(userID));
+					Student s = (Student) u;
+					_courseOffering.get(getIndexOfOffering(courseCode, semester)).addWaiver(s, reason);
 				}
 			}
 		}
@@ -197,10 +211,11 @@ public class Driver {
 		return result;
 	}
 
-	public int getIndexOfCourse(String courseCode, String semester) {
+	public int getIndexOfOffering(String courseCode, String semester) {
 		int result = -1;
-		for (int i = 0; i < _courses.size(); i++) {
-			if (_courses.get(i).checkCourseExists(courseCode, semester)) {
+		for (int i = 0; i < _courseOffering.size(); i++) {
+			if (_courseOffering.get(i).getSemester().equals(semester)
+					& _courseOffering.get(i).getCourseCode().equals(courseCode)) {
 				result = i;
 				break;
 			}
@@ -208,11 +223,22 @@ public class Driver {
 		return result;
 	}
 
-	public int getIndexOfEnrolment(ArrayList<Enrolment> e, String userID, String courseCode, String semester) {
+	public int getIndexOfCourse(String courseCode, String semester) {
 		int result = -1;
-		for (int i = 0; i < e.size(); i++) {
-			if (e.get(i).getStudentID().equals(userID) & e.get(i).getCourseCode().equals(courseCode)
-					& e.get(i).getSemester().equals(semester)) {
+		for (int i = 0; i < _courseOffering.size(); i++) {
+			if (_courseOffering.get(i).courseOffered(courseCode, semester)) {
+				result = i;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public int getIndexOfEnrolment(String userID, String courseCode, String semester) {
+		int result = -1;
+		for (int i = 0; i < _enrolment.size(); i++) {
+			if (_enrolment.get(i).getCourseCode().equals(courseCode) & _enrolment.get(i).getSemester().equals(semester)
+					& _enrolment.get(i).isStudentEnrolled(_enrolment.get(i).getStudent(), courseCode, semester)) {
 				result = i;
 				break;
 			}

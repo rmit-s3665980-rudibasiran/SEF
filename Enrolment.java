@@ -2,55 +2,32 @@ package SEF;
 
 public class Enrolment {
 
-	private String _studentID;
+	private Student _student;
 	private String _courseCode;
 	private String _semester;
 	private String _grade;
-	private Boolean _waiver;
 
 	public Enrolment() {
 
 	}
 
-	public Enrolment(String userID, String courseCode, String semester) {
-		_studentID = userID;
+	public Enrolment(Student s, String courseCode, String semester) {
+		_student = s;
 		_courseCode = courseCode;
 		_semester = semester;
-		_grade = "";
-		_waiver = false;
+
 	}
 
-	public Enrolment(String userID, String courseCode, String semester, String grade) {
-		_studentID = userID;
+	public Enrolment(Student s, String courseCode, String semester, String grade) {
+		_student = s;
 		_courseCode = courseCode;
 		_semester = semester;
-		_grade = "";
-		_waiver = false;
-		if (grade.equals(GlobalClass.waiverGrade))
-			_waiver = true;
-		else
-			_grade = grade;
+		_grade = grade;
 	}
 
-	public Enrolment(String userID, String courseCode, String semester, Boolean waived) {
-		_studentID = userID;
-		_courseCode = courseCode;
-		_semester = semester;
-		_grade = "";
-		_waiver = waived;
-	}
-
-	public Boolean isStudentEnrolled(String userID, String courseCode, String semester) {
-		return (_studentID.equals(userID) & _courseCode.equals(courseCode) & _semester.equals(semester) ? true : false);
-
-	}
-
-	public Boolean hasWaiver() {
-		return _waiver;
-	}
-
-	public String getStudentID() {
-		return _studentID;
+	public Boolean isStudentEnrolled(Student s, String courseCode, String semester) {
+		return (_student.getID().equals(s.getID()) & _student.getName().equals(s.getName())
+				& _courseCode.equals(courseCode) & _semester.equals(semester) ? true : false);
 	}
 
 	public String getCourseCode() {
@@ -66,9 +43,10 @@ public class Enrolment {
 	}
 
 	public void setGrade(String grade) {
-		if (grade.equals(GlobalClass.waiverGrade))
-			_waiver = true;
-		else
-			_grade = grade;
+		_grade = grade;
+	}
+
+	public Student getStudent() {
+		return _student;
 	}
 }
