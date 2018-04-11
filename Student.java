@@ -1,5 +1,7 @@
 package SEF;
 
+import java.util.ArrayList;
+
 public class Student extends User {
 
 	private int _maxLoad;
@@ -20,6 +22,15 @@ public class Student extends User {
 
 	public int getMaxLoad() {
 		return _maxLoad;
+	}
+
+	public int countEnrolment(ArrayList<Enrolment> e, String userID, String semester) {
+		int count = 0;
+		for (int i = 0; i < e.size(); i++)
+			if (e.get(i).getStudentID().equals(userID) & e.get(i).getSemester().equals(semester))
+				count++;
+
+		return count;
 	}
 
 }

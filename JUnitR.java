@@ -132,7 +132,35 @@ class JUnitR {
 
 	@Test
 	public void changeLoadHitMaxLoad() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+			driver._users.sort(Comparator.comparing(User::getName));
+			driver._courses.sort(Comparator.comparing(Course::getCourseCode));
+			driver._enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+
+			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
+			int i = driver.getIndexOfUser(userID);
+			User u = driver._users.get(i);
+			Student s = (Student) u;
+
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, userID, "1810") + " | MaxLoad = "
+					+ s.getMaxLoad());
+			int newLoad = 1;
+			Enrolment e = new Enrolment(userID, "COSC1295", "1810");
+			driver._enrolment.add(e);
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, userID, "1810") + " | MaxLoad = "
+					+ s.getMaxLoad());
+			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, userID, "1810")
+					& driver.changeLoad(userID, "1810", newLoad));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	};
 
 	@Test
