@@ -10,7 +10,6 @@ public class CourseOffering {
 	private int _week;
 	private int _maxStudents;
 	private ArrayList<Lecturer> _lecturer = new ArrayList<>();
-	private ArrayList<Enrolment> _enrolledStudents = new ArrayList<>();
 	private HashMap _waivers = new HashMap();
 	private Boolean _active;
 
@@ -48,12 +47,20 @@ public class CourseOffering {
 		_waivers.put(s.getID(), reason);
 	}
 
-	public Boolean getWaiver(Student s) {
+	public Boolean hasWaiver(Student s) {
 		Boolean found = false;
 		if (_waivers.containsKey(s.getID()))
 			found = true;
 
 		return found;
+	}
+
+	public void addLecturer(Lecturer l) {
+		_lecturer.add(l);
+	}
+
+	public ArrayList getLecturer() {
+		return _lecturer;
 	}
 
 }

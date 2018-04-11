@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Student extends User {
 
 	private int _maxLoad;
+	private int _maxElectives;
 
 	public Student() {
 		super();

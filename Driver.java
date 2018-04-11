@@ -3,6 +3,7 @@ package SEF;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Driver {
@@ -84,6 +85,11 @@ public class Driver {
 					_courseOffering.get(getIndexOfOffering(courseCode, semester)).addWaiver(s, reason);
 				}
 			}
+
+			_users.sort(Comparator.comparing(User::getName));
+			_courses.sort(Comparator.comparing(Course::getCourseCode));
+			_enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
+			_courseOffering.sort(Comparator.comparing(CourseOffering::getCourseCode));
 		}
 
 		catch (FileNotFoundException e) {
@@ -242,6 +248,18 @@ public class Driver {
 				result = i;
 				break;
 			}
+		}
+		return result;
+	}
+
+	public int getIndexOfLecturer(ArrayList<Lecturer> lecturer, Lecturer l) {
+		int result = -1;
+		for (int i = 0; i < lecturer.size(); i++) {
+			if (lecturer.get(i).getID().equals(l.getID())) {
+				result = i;
+				break;
+			}
+
 		}
 		return result;
 	}
