@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,13 @@ class JUnitR {
 				System.out.println("User: " + driver._users.get(i).getName() + " | " + driver._users.get(i).getID()
 						+ " | " + GlobalClass.roleDesc[driver._users.get(i).getRole()]);
 
+			Helper.drawLine();
+
 			for (int i = 0; i < driver._courses.size(); i++)
 				System.out.println("Course: " + driver._courses.get(i).getCourseCode() + " | "
 						+ driver._courses.get(i).getCourseTitle());
+
+			Helper.drawLine();
 
 			for (int i = 0; i < driver._courseOffering.size(); i++) {
 				System.out.println("Course Offering: " + driver._courseOffering.get(i).getSemester() + " | "
@@ -32,17 +35,16 @@ class JUnitR {
 								.getCourseTitle());
 			}
 
+			Helper.drawLine();
 			for (int i = 0; i < driver._enrolment.size(); i++)
 				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + " | "
 						+ driver._enrolment.get(i).getCourseCode() + " | " + driver._enrolment.get(i).getSemester()
 						+ " | " + driver._enrolment.get(i).getGrade());
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
+			Helper.drawLine();
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -70,12 +72,8 @@ class JUnitR {
 			// assertTrue to check that student does indeed have waiver
 			assertTrue(driver._courseOffering.get(driver.getIndexOfOffering(courseCode, semester)).hasWaiver(s));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -89,12 +87,8 @@ class JUnitR {
 			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
 			assertTrue(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -108,12 +102,8 @@ class JUnitR {
 			String userID = driver._users.get(driver.getIndexOfUser("s3665980")).getID();
 			assertFalse(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -129,19 +119,16 @@ class JUnitR {
 			Enrolment e = new Enrolment(s, "COSC2531", "1810");
 			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
 					+ s.getMaxLoad());
-
+			Helper.drawLine();
 			driver._enrolment.add(e);
 			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
 					+ s.getMaxLoad());
+			Helper.drawLine();
 			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), "1810")
 					& driver.changeLoad(s.getID(), "1810", newLoad));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -159,15 +146,10 @@ class JUnitR {
 			// did not add and therefore, false
 			assertFalse(i >= 0);
 			System.out.println("Cannot get CourseOffering: " + i);
+			Helper.drawLine();
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("addNewOffering ArrayIndexOutOfBoundsException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 
 	};
@@ -189,14 +171,8 @@ class JUnitR {
 			assertTrue(driver._courseOffering.get(driver.getIndexOfOffering(courseCode, semester))
 					.courseOffered(courseCode, semester));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("addExistingOffering ArrayIndexOutOfBoundsException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 
 	};
@@ -216,20 +192,15 @@ class JUnitR {
 
 			assertFalse(il >= 0);
 			System.out.println("Cannot get CourseOffering Lecturers: " + il);
+			Helper.drawLine();
 
 			driver._courseOffering.get(y).addLecturer(l);
 			il = driver.getIndexOfLecturer(driver._courseOffering.get(y).getLecturer(), l);
 			ArrayList<Lecturer> courseLecturer = driver._courseOffering.get(y).getLecturer();
 			assertEquals(courseLecturer.get(il).getID(), l.getID());
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("addLecturer ArrayIndexOutOfBoundsException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 	};
 
@@ -245,19 +216,24 @@ class JUnitR {
 			int i = driver.getIndexOfCourse(courseCode);
 			assertFalse(i >= 0);
 			System.out.println("Cannot find Course:" + i);
+			Helper.drawLine();
 			driver._courses.add(new Course(courseCode, title));
 			assertTrue(driver._courses.get(driver.getIndexOfCourse(courseCode)).getCourseTitle().equals(title));
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (NullPointerException e) {
-			System.out.println("NullPointerException");
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("addCourse ArrayIndexOutOfBoundsException");
 		} catch (Exception e) {
-			e.printStackTrace();
+			RMITExceptions.handleExceptions(e);
 		}
 
+	};
+
+	@Test
+	public void addEnrolment() {
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+		} catch (Exception e) {
+			RMITExceptions.handleExceptions(e);
+		}
 	};
 
 }
