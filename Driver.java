@@ -223,10 +223,10 @@ public class Driver {
 		return result;
 	}
 
-	public int getIndexOfCourse(String courseCode, String semester) {
+	public int getIndexOfCourse(String courseCode) {
 		int result = -1;
-		for (int i = 0; i < _courseOffering.size(); i++) {
-			if (_courseOffering.get(i).courseOffered(courseCode, semester)) {
+		for (int i = 0; i < _courses.size(); i++) {
+			if (_courses.get(i).getCourseCode().equals(courseCode)) {
 				result = i;
 				break;
 			}

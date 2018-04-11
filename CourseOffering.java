@@ -11,7 +11,7 @@ public class CourseOffering {
 	private int _maxStudents;
 	private ArrayList<Lecturer> _lecturer = new ArrayList<>();
 	private ArrayList<Enrolment> _enrolledStudents = new ArrayList<>();
-	private HashMap _waivers;
+	private HashMap _waivers = new HashMap();
 	private Boolean _active;
 
 	public CourseOffering() {
@@ -46,6 +46,14 @@ public class CourseOffering {
 
 	public void addWaiver(Student s, String reason) {
 		_waivers.put(s.getID(), reason);
+	}
+
+	public Boolean getWaiver(Student s) {
+		Boolean found = false;
+		if (_waivers.containsKey(s.getID()))
+			found = true;
+
+		return found;
 	}
 
 }
