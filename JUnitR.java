@@ -133,7 +133,7 @@ class JUnitR {
 	};
 
 	@Test
-	public void addNewOffering() {
+	public void addOffering() {
 
 		try {
 			Driver driver = new Driver();
@@ -147,22 +147,6 @@ class JUnitR {
 			assertFalse(i >= 0);
 			System.out.println("Cannot get CourseOffering: " + i);
 			Helper.drawLine();
-
-		} catch (Exception e) {
-			RMITExceptions.handleExceptions(e);
-		}
-
-	};
-
-	@Test
-	public void addExistingOffering() {
-
-		try {
-			Driver driver = new Driver();
-			driver.loadData();
-
-			String courseCode = "COSC2615";
-			String semester = "1810";
 
 			// added offering
 			driver._courseOffering.add(new CourseOffering(courseCode, semester));
@@ -213,9 +197,8 @@ class JUnitR {
 
 			String courseCode = "MATH101";
 			String title = "Maths for Beginners";
-			int i = driver.getIndexOfCourse(courseCode);
-			assertFalse(i >= 0);
-			System.out.println("Cannot find Course:" + i);
+			assertFalse(driver.getIndexOfCourse(courseCode) >= 0);
+			System.out.println("JUnit.addCourse | Cannot find Course: " + driver.getIndexOfCourse(courseCode));
 			Helper.drawLine();
 			driver._courses.add(new Course(courseCode, title));
 			assertTrue(driver._courses.get(driver.getIndexOfCourse(courseCode)).getCourseTitle().equals(title));

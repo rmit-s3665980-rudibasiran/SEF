@@ -66,12 +66,17 @@ public class Driver {
 					String userID = input.next();
 					String courseCode = input.next();
 					String semester = input.next();
+					String grade = input.next();
 
 					int i = getIndexOfUser(userID);
 					User u = _users.get(i);
 					Student s = (Student) u;
+					Enrolment e;
+					if (grade != "")
+						e = new Enrolment(s, courseCode, semester, grade);
+					else
+						e = new Enrolment(s, courseCode, semester);
 
-					Enrolment e = new Enrolment(s, courseCode, semester);
 					_enrolment.add(e);
 
 				} else if (role.equals("Waiver")) {
