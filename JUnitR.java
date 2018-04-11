@@ -3,7 +3,6 @@ package SEF;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -235,13 +234,30 @@ class JUnitR {
 	};
 
 	@Test
-	public void addNewCourse() {
-		fail("");
-	};
+	public void addCourse() {
 
-	@Test
-	public void addExistingCourse() {
-		fail("");
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+
+			String courseCode = "MATH101";
+			String title = "Maths for Beginners";
+			int i = driver.getIndexOfCourse(courseCode);
+			assertFalse(i >= 0);
+			System.out.println("Cannot find Course:" + i);
+			driver._courses.add(new Course(courseCode, title));
+			assertTrue(driver._courses.get(driver.getIndexOfCourse(courseCode)).getCourseTitle().equals(title));
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found");
+		} catch (NullPointerException e) {
+			System.out.println("NullPointerException");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("addCourse ArrayIndexOutOfBoundsException");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	};
 
 }
