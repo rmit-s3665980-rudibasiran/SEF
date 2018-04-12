@@ -12,12 +12,12 @@ Developer(s):
 5. Ahdeiah Gurgani: s3705295
 
 
-Date Created: 3 April 2018 
-Description: CMS
-Notes: Main class
+Date Created: 3 April 2018  
+Description: RMIT CMS
+Notes: Main class, initially created as CMS.java, renamed RMIT.java on 12 Apr 2018
  */
 
-public class CMS {
+public class RMIT {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
@@ -25,7 +25,7 @@ public class CMS {
 		Driver driver = new Driver();
 		driver.loadData();
 
-		System.out.println("Welcome to the Course Management System");
+		System.out.println("Welcome to the RMIT Course Management System");
 		System.out.println("Enter your username and password to login to your account.");
 
 		String userID = Helper.getStringInput("Enter User ID: ");
@@ -46,4 +46,5 @@ public class CMS {
 			System.out.println(
 					"The UserID and password you entered are incorrect. Please contact the CMS Administrator.");
 	}
+
 }

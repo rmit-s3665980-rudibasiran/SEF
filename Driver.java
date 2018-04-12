@@ -146,8 +146,8 @@ public class Driver {
 		return status;
 	}
 
-	public ArrayList<String> viewPerformance(String studentID) {
-		ArrayList<String> performance = new ArrayList<>();
+	public ArrayList<Enrolment> viewPerformance(Student s) {
+		ArrayList<Enrolment> performance = new ArrayList<>();
 		return performance;
 	}
 
@@ -219,6 +219,10 @@ public class Driver {
 
 		if (numWeeks > GlobalClass.maxWeek)
 			status = false;
+		else {
+			// if (CourseOffering._week + numWeeks) <= GlobalClass.maxWeek
+			// CourseOffering._week += numWeeks
+		}
 		return status;
 	}
 

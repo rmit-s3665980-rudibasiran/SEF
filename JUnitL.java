@@ -50,10 +50,12 @@ public class JUnitL {
 
 	@Test
 	public void advanceWeekByMany() {
-		String courseCode = "COSC2531";
-		String semester = "1810";
 		Driver driver = new Driver();
 		driver.loadData();
+
+		String courseCode = "COSC2531";
+		String semester = "1810";
+
 		CourseOffering co = new CourseOffering(courseCode, semester);
 		int advanceIncorrectInt = 13;
 		assertFalse(driver.advanceWeek(co, advanceIncorrectInt));
