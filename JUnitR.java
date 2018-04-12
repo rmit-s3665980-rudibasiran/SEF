@@ -2,6 +2,7 @@ package SEF;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ class JUnitR {
 		}
 	};
 
+	// change student's max load per term
 	@Test
 	public void changeLoadCorrectValue() {
 		try {
@@ -107,6 +109,7 @@ class JUnitR {
 		}
 	};
 
+	// what if student is doing 2 modules for the term and maxLoad changed to 1
 	@Test
 	public void changeLoadHitMaxLoad() {
 		try {
@@ -132,6 +135,7 @@ class JUnitR {
 		}
 	};
 
+	// add course offerings - new and existing
 	@Test
 	public void addOffering() {
 
@@ -161,6 +165,7 @@ class JUnitR {
 
 	};
 
+	// add lecturer to course offering - new and existing
 	@Test
 	public void addLecturer() {
 		try {
@@ -188,6 +193,7 @@ class JUnitR {
 		}
 	};
 
+	// add course - new and existing
 	@Test
 	public void addCourse() {
 
@@ -209,11 +215,31 @@ class JUnitR {
 
 	};
 
+	// add enrolment - new and existing
 	@Test
 	public void addEnrolment() {
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
+		} catch (Exception e) {
+			RMITExceptions.handleExceptions(e);
+		}
+	};
+
+	// test template
+	// do not delete as eclipse will remove the import headers automatically
+	@Test
+	public void testTemplate() {
+		try {
+			Driver driver = new Driver();
+			driver.loadData();
+
+			// test something
+			assertTrue(true);
+			assertFalse(false);
+			assertEquals(1, 1);
+			assertNotSame(2, 1);
+
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
 		}

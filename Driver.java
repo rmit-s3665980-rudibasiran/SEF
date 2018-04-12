@@ -1,7 +1,6 @@
 package SEF;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -16,7 +15,7 @@ public class Driver {
 	public Driver() {
 	}
 
-	public void loadData() throws FileNotFoundException {
+	public void loadData() {
 
 		try {
 			// amend to your own path
@@ -97,10 +96,8 @@ public class Driver {
 			_courseOffering.sort(Comparator.comparing(CourseOffering::getCourseCode));
 		}
 
-		catch (FileNotFoundException e) {
-			System.out.println("File Not Found");
-		} catch (Exception e) {
-			e.printStackTrace();
+		catch (Exception e) {
+			RMITExceptions.handleExceptions(e);
 		}
 	}
 
