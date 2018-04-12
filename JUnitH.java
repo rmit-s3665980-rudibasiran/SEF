@@ -1,9 +1,6 @@
 package SEF;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -35,23 +32,21 @@ class JUnitH {
 
 	}
 
-	// test template
-	// do not delete as eclipse will remove the import headers automatically if the
-	// other junit tests do not make use of them
 	@Test
-	public void testTemplate() {
-		try {
-			Driver driver = new Driver();
-			driver.loadData();
+	void ViewPerformance() {
 
-			// test something
-			assertTrue(true);
-			assertFalse(false);
-			assertEquals(1, 1);
-			assertNotSame(2, 1);
+		Driver driver = new Driver();
+		driver.loadData();
 
-		} catch (Exception e) {
-			RMITExceptions.handleExceptions(e);
-		}
-	};
+		User u = driver._users.get(driver.getIndexOfUser("s3685849"));
+		for (int i = 0; i < driver._enrolment.size(); i++)
+			if (driver._enrolment.get(i).getStudent().getID().equals(u.getID()))
+				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + " | "
+						+ driver._enrolment.get(i).getStudent().getName() + " | " + " | "
+						+ driver._enrolment.get(i).getSemester() + driver._enrolment.get(i).getCourseCode() + " | "
+						+ driver._courses.get(driver.getIndexOfCourse(driver._enrolment.get(i).getCourseCode()))
+								.getCourseTitle()
+						+ " | "
+						+ (driver._enrolment.get(i).getGrade().equals("") ? "-" : driver._enrolment.get(i).getGrade()));
+	}
 }
