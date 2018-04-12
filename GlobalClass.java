@@ -47,5 +47,7 @@ public class GlobalClass {
 	public static Boolean isWaived = true;
 	public static Boolean isNotWaived = false;
 
+	public static String passGrades[] = { "HD", "D", "C", "PA" };
+
 	public static int maxLoad = 3;
 }

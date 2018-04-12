@@ -71,10 +71,11 @@ public class Driver {
 					User u = _users.get(i);
 					Student s = (Student) u;
 					Enrolment e;
+					CourseOffering co = new CourseOffering(courseCode, semester);
 					if (grade != "")
-						e = new Enrolment(s, courseCode, semester, grade);
+						e = new Enrolment(s, co, grade);
 					else
-						e = new Enrolment(s, courseCode, semester);
+						e = new Enrolment(s, co);
 
 					_enrolment.add(e);
 
@@ -242,11 +243,12 @@ public class Driver {
 		return result;
 	}
 
-	public int getIndexOfEnrolment(String userID, String courseCode, String semester) {
+	public int getIndexOfEnrolment(Student s, CourseOffering co) {
 		int result = -1;
 		for (int i = 0; i < _enrolment.size(); i++) {
-			if (_enrolment.get(i).getCourseCode().equals(courseCode) & _enrolment.get(i).getSemester().equals(semester)
-					& _enrolment.get(i).isStudentEnrolled(_enrolment.get(i).getStudent(), courseCode, semester)) {
+			if (_enrolment.get(i).getStudent().getID().equals(s.getID())
+					& _enrolment.get(i).getCourseCode().equals(co.getCourseCode())
+					& _enrolment.get(i).getSemester().equals(co.getSemester())) {
 				result = i;
 				break;
 			}

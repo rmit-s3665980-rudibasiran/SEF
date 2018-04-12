@@ -51,7 +51,7 @@ class JUnitR {
 
 	@Test
 	// add new waiver and add existing waiver
-	public void addExemption() {
+	public void addWaiver() {
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -119,16 +119,19 @@ class JUnitR {
 			int newLoad = 1;
 			User u = driver._users.get(driver.getIndexOfUser("s3665980"));
 			Student s = (Student) u;
-			Enrolment e = new Enrolment(s, "COSC2531", "1810");
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
-					+ s.getMaxLoad());
+			String courseCode = "COSC2531";
+			String semester = "1810";
+			CourseOffering co = new CourseOffering(courseCode, semester);
+			Enrolment e = new Enrolment(s, co);
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
+					+ " | MaxLoad = " + s.getMaxLoad());
 			Helper.drawLine();
 			driver._enrolment.add(e);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), "1810") + " | MaxLoad = "
-					+ s.getMaxLoad());
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
+					+ " | MaxLoad = " + s.getMaxLoad());
 			Helper.drawLine();
-			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), "1810")
-					& driver.changeLoad(s.getID(), "1810", newLoad));
+			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), semester)
+					& driver.changeLoad(s.getID(), semester, newLoad));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -221,6 +224,27 @@ class JUnitR {
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
+
+			User u = driver._users.get(driver.getIndexOfUser("s3665980"));
+			Student s = (Student) u;
+			String courseCode = "COSC1295";
+			String semester = "1810";
+			String grade = "HD";
+
+			CourseOffering co = new CourseOffering(courseCode, semester);
+			Enrolment e = new Enrolment(s, co, grade);
+
+			assertTrue(driver._courseOffering.get(driver.getIndexOfOffering(courseCode, semester))
+					.courseOffered(courseCode, semester));
+
+			assertFalse(driver.getIndexOfEnrolment(s, co) >= 0);
+			System.out.println("JUnit addEnrolment | Cannot find enrolment: " + driver.getIndexOfEnrolment(s, co));
+			driver._enrolment.add(e);
+			assertTrue(driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).isStudentEnrolled(s, co));
+			assertTrue(driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).hasPassed(s, co));
+			e.setGrade("F");
+			assertFalse(driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).hasPassed(s, co));
+
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
 		}
