@@ -110,7 +110,7 @@ public class Driver {
 			System.out.println("Add Course");
 		} else if (menuItem == GlobalClass.viewPerformance) {
 			System.out.println("View Performance");
-		} else if (menuItem == GlobalClass.addExemption) {
+		} else if (menuItem == GlobalClass.addWaiver) {
 			System.out.println("Add Exemption");
 		} else if (menuItem == GlobalClass.changeLoad) {
 			System.out.println("Change Load");
@@ -140,7 +140,7 @@ public class Driver {
 
 	}
 
-	public Boolean addCourse(String courseCode, String semester, String preReq, String cDesc) {
+	public Boolean addCourse(String courseCode, String cTitle, String preReq, String cDesc) {
 		Boolean status = true;
 
 		return status;
@@ -151,7 +151,12 @@ public class Driver {
 		return performance;
 	}
 
-	public Boolean addExemption(String studentID, String courseCode, String semester, Boolean flag) {
+	public Boolean addWaiver(String studentID, String courseCode, String semester, Boolean flag) {
+		Boolean status = true;
+		return status;
+	}
+
+	public Boolean addWaiver(Student s, CourseOffering co, Boolean flag) {
 		Boolean status = true;
 		return status;
 	}
@@ -170,7 +175,16 @@ public class Driver {
 		return true;
 	}
 
+	public Boolean assignGrade(Student s, CourseOffering co, String grade) {
+		return true;
+	}
+
 	public Boolean addOffering(String courseCode, String semester, Boolean active) {
+		Boolean status = true;
+		return status;
+	}
+
+	public Boolean addOffering(CourseOffering co, Boolean active) {
 		Boolean status = true;
 		return status;
 	}
@@ -180,32 +194,45 @@ public class Driver {
 		return status;
 	}
 
+	public Boolean addOffering(CourseOffering co, int ttlStudent, Boolean active) {
+		Boolean status = true;
+		return status;
+	}
+
+	public Boolean addLecturer(CourseOffering co, Lecturer lecturer) {
+		Boolean status = true;
+		return status;
+	}
+
 	public Boolean addLecturer(String courseCode, String semester, Lecturer lecturer) {
 		Boolean status = true;
 		return status;
 	}
 
-	public Boolean advanceWeek(String courseCode, String semester) {
+	public Boolean advanceWeek(CourseOffering co) {
 		Boolean status = true;
 		return status;
 	}
 
-	public Boolean advanceWeek(String courseCode, String semester, int numWeeks) {
+	public Boolean advanceWeek(CourseOffering co, int numWeeks) {
+		Boolean status = true;
+
+		if (numWeeks > GlobalClass.maxWeek)
+			status = false;
+		return status;
+	}
+
+	public Boolean enrolCourse(Student s, CourseOffering co) {
 		Boolean status = true;
 		return status;
 	}
 
-	public Boolean enrolCourse(String studentID, String courseCode, String semester) {
+	public Boolean dropCourse(Student s, CourseOffering co) {
 		Boolean status = true;
 		return status;
 	}
 
-	public Boolean dropCourse(String studentID, String courseCode, String semester) {
-		Boolean status = true;
-		return status;
-	}
-
-	public void applyWaivers(String studentID, String courseCode, String semester, String reason) {
+	public void applyWaivers(Student s, CourseOffering co, String reason) {
 
 	}
 
@@ -225,6 +252,18 @@ public class Driver {
 		for (int i = 0; i < _courseOffering.size(); i++) {
 			if (_courseOffering.get(i).getSemester().equals(semester)
 					& _courseOffering.get(i).getCourseCode().equals(courseCode)) {
+				result = i;
+				break;
+			}
+		}
+		return result;
+	}
+
+	public int getIndexOfOffering(CourseOffering co) {
+		int result = -1;
+		for (int i = 0; i < _courseOffering.size(); i++) {
+			if (_courseOffering.get(i).getSemester().equals(co.getSemester())
+					& _courseOffering.get(i).getCourseCode().equals(co.getCourseCode())) {
 				result = i;
 				break;
 			}

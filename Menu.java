@@ -17,7 +17,7 @@ public class Menu {
 		_menuItems[GlobalClass.viewCourse] = "View Course";
 		_menuItems[GlobalClass.addCourse] = "Add Course";
 		_menuItems[GlobalClass.viewPerformance] = "View Performance";
-		_menuItems[GlobalClass.addExemption] = "Add Exemption";
+		_menuItems[GlobalClass.addWaiver] = "Add Exemption";
 		_menuItems[GlobalClass.changeLoad] = "Change Load";
 		_menuItems[GlobalClass.assignGrade] = "Assign Grade";
 		_menuItems[GlobalClass.addOffering] = "Add Offering";

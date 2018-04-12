@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 class JUnitR {
 
 	@Test
-	public void setup() {
+	public void setUp() {
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -149,10 +149,9 @@ class JUnitR {
 			String courseCode = "COSC2615";
 			String semester = "1810";
 
-			int i = driver.getIndexOfOffering(courseCode, semester);
 			// did not add and therefore, false
-			assertFalse(i >= 0);
-			System.out.println("Cannot get CourseOffering: " + i);
+			assertFalse(driver.getIndexOfOffering(courseCode, semester) >= 0);
+			System.out.println("Cannot get CourseOffering: " + driver.getIndexOfOffering(courseCode, semester));
 			Helper.drawLine();
 
 			// added offering
@@ -251,7 +250,8 @@ class JUnitR {
 	};
 
 	// test template
-	// do not delete as eclipse will remove the import headers automatically
+	// do not delete as eclipse will remove the import headers automatically if the
+	// other junit tests do not make use of them
 	@Test
 	public void testTemplate() {
 		try {

@@ -21,7 +21,7 @@ public class GlobalClass {
 	public static int viewCourse = 1;
 	public static int addCourse = 2;
 	public static int viewPerformance = 3;
-	public static int addExemption = 4;
+	public static int addWaiver = 4;
 	public static int changeLoad = 5;
 	public static int assignGrade = 6;
 	public static int addOffering = 7;
@@ -39,8 +39,8 @@ public class GlobalClass {
 	public static String roleDesc[] = { "Admin", "ProgramCoordinator", "Lecturer", "Student" };
 
 	public static int allRoles[][] = new int[][] { { quitMenu, viewCourse, viewPerformance, advanceWeek },
-			{ quitMenu, viewCourse, addCourse, viewPerformance, addExemption, changeLoad, addOffering, addLecturer },
-			{ quitMenu, viewCourse, addCourse, viewPerformance, addExemption, assignGrade, addOffering },
+			{ quitMenu, viewCourse, addCourse, viewPerformance, addWaiver, changeLoad, addOffering, addLecturer },
+			{ quitMenu, viewCourse, addCourse, viewPerformance, addWaiver, assignGrade, addOffering },
 			{ quitMenu, viewCourse, enrolCourse, dropCourse, applyWaivers } };
 
 	public static String waiverGrade = "WAIVED";
@@ -50,4 +50,5 @@ public class GlobalClass {
 	public static String passGrades[] = { "HD", "D", "C", "PA" };
 
 	public static int maxLoad = 3;
+	public static int maxWeek = 12;
 }
