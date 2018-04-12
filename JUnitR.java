@@ -46,6 +46,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -75,6 +76,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -91,6 +93,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -135,6 +138,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -163,6 +167,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 
 	};
@@ -192,6 +197,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -213,8 +219,8 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
-
 	};
 
 	// add enrolment - new and existing
@@ -246,6 +252,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
@@ -266,6 +273,7 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
+		} finally {
 		}
 	};
 
