@@ -58,4 +58,8 @@ public class Enrolment {
 	public Student getStudent() {
 		return _student;
 	}
+
+	public CourseOffering getCourseOffering() {
+		return _courseOffering;
+	}
 }

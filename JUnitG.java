@@ -19,8 +19,8 @@ class JUnitG {
 			Student s = (Student) u;
 			String courseCode = "COSC1295";
 			String semester = "1810";
-
-			CourseOffering co = new CourseOffering(courseCode, semester);
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
 
 			if (driver._courseOffering.get(courseCode + semester).courseOffered(courseCode, semester))
@@ -45,15 +45,16 @@ class JUnitG {
 			else
 				System.out.println("Enrolment Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
-
-			CourseOffering coPast = new CourseOffering(courseCode, "1720");
+			c = driver._courses.get(courseCode);
+			CourseOffering coPast = new CourseOffering(c, "1720");
 			Enrolment ePast = new Enrolment(s, coPast);
 			ePast.setGrade("HD");
 			driver._enrolment.add(ePast);
 
 			for (int i = 0; i < driver._enrolment.size(); i++) {
 				Enrolment eTemp = driver._enrolment.get(i);
-				CourseOffering coTemp = new CourseOffering(eTemp.getCourseCode(), eTemp.getSemester());
+				c = driver._courses.get(eTemp.getCourseCode());
+				CourseOffering coTemp = new CourseOffering(c, eTemp.getSemester());
 
 				if (eTemp.hasPassed(s, coTemp) & eTemp.getStudent().getID().equals(s.getID()))
 					System.out.println("Student Already Passed, cannot add for " + e.getCourseCode() + separator

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CourseOffering {
-
-	private String _courseCode;
+	private Course _course;
 	private String _semester;
 	private int _week;
 	private int _maxStudents;
@@ -17,22 +16,24 @@ public class CourseOffering {
 
 	}
 
-	public CourseOffering(String courseCode, String semester) {
-		_courseCode = courseCode;
+	public CourseOffering(Course c, String semester) {
+
+		_course = c;
 		_semester = semester;
 		_week = 0;
 	}
 
 	public Boolean courseOffered(CourseOffering co) {
-		return ((_courseCode.equals(co.getCourseCode()) & _semester.equals(co.getSemester())) ? true : false);
+		return ((_course.getCourseCode().equals(co.getCourseCode()) & _semester.equals(co.getSemester())) ? true
+				: false);
 	}
 
 	public Boolean courseOffered(String courseCode, String semester) {
-		return ((_courseCode.equals(courseCode) & _semester.equals(semester)) ? true : false);
+		return ((_course.getCourseCode().equals(courseCode) & _semester.equals(semester)) ? true : false);
 	}
 
 	public String getCourseCode() {
-		return _courseCode;
+		return _course.getCourseCode();
 	}
 
 	public String getSemester() {

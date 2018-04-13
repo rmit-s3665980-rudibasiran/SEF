@@ -17,7 +17,8 @@ class JUnitH {
 		String semester = "1810";
 		String grade = "HD";
 
-		CourseOffering co = new CourseOffering(courseCode, semester);
+		Course c = driver._courses.get(courseCode);
+		CourseOffering co = new CourseOffering(c, semester);
 		Enrolment e = new Enrolment(s, co, grade);
 
 		driver._enrolment.add(e);

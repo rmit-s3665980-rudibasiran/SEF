@@ -37,10 +37,15 @@ class JUnitR {
 						+ driver._courses.get(co.getCourseCode()).getCourseTitle());
 			}
 
-			for (int i = 0; i < driver._enrolment.size(); i++)
-				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + separator
-						+ driver._enrolment.get(i).getCourseCode() + separator + driver._enrolment.get(i).getSemester()
-						+ separator + driver._enrolment.get(i).getGrade());
+			for (int i = 0; i < driver._enrolment.size(); i++) {
+				Enrolment e = driver._enrolment.get(i);
+				Student s = e.getStudent();
+				CourseOffering co = e.getCourseOffering();
+				Course c = driver._courses.get(e.getCourseCode());
+				System.out.println("Enrolment: " + s.getID() + separator + s.getName() + separator + e.getCourseCode()
+						+ separator + c.getCourseTitle() + separator + separator + e.getSemester() + separator
+						+ e.getGrade());
+			}
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -133,7 +138,8 @@ class JUnitR {
 			Student s = (Student) u;
 			String courseCode = "COSC2531";
 			String semester = "1810";
-			CourseOffering co = new CourseOffering(courseCode, semester);
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
 			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
 					+ " | MaxLoad = " + s.getMaxLoad());
@@ -170,7 +176,8 @@ class JUnitR {
 			System.out.println("Cannot get CourseOffering: " + courseCode + separator + semester);
 
 			// added offering
-			driver._courseOffering.put(courseCode + semester, new CourseOffering(courseCode, semester));
+			Course c = driver._courses.get(courseCode);
+			driver._courseOffering.put(courseCode + semester, new CourseOffering(c, semester));
 
 			// have added and therefore, true
 			assertTrue(driver._courseOffering.get(courseCode + semester).courseOffered(courseCode, semester));
@@ -248,7 +255,8 @@ class JUnitR {
 			String courseCode = "COSC1295";
 			String semester = "1810";
 
-			CourseOffering co = new CourseOffering(courseCode, semester);
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
 
 			if (driver._courseOffering.get(courseCode + semester).courseOffered(courseCode, semester))

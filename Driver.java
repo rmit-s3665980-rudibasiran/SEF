@@ -59,7 +59,8 @@ public class Driver {
 					String courseCode = input.next();
 					String semester = input.next();
 					String key = courseCode + semester;
-					_courseOffering.put(key, new CourseOffering(courseCode, semester));
+					Course c = _courses.get(courseCode);
+					_courseOffering.put(key, new CourseOffering(c, semester));
 
 				} else if (role.equals("Enrolment")) {
 
@@ -71,7 +72,8 @@ public class Driver {
 					User u = _users.get(userID);
 					Student s = (Student) u;
 					Enrolment e;
-					CourseOffering co = new CourseOffering(courseCode, semester);
+					Course c = _courses.get(courseCode);
+					CourseOffering co = new CourseOffering(c, semester);
 					if (grade != "")
 						e = new Enrolment(s, co, grade);
 					else

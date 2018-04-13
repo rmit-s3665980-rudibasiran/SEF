@@ -42,7 +42,8 @@ public class JUnitL {
 		driver.loadData();
 		String courseCode = "COSC2531";
 		String semester = "1810";
-		CourseOffering co = new CourseOffering(courseCode, semester);
+		Course c = driver._courses.get(courseCode);
+		CourseOffering co = new CourseOffering(c, semester);
 		int advanceCorrectInt = 1;
 
 		assertTrue(driver.advanceWeek(co, advanceCorrectInt));
@@ -56,7 +57,8 @@ public class JUnitL {
 		String courseCode = "COSC2531";
 		String semester = "1810";
 
-		CourseOffering co = new CourseOffering(courseCode, semester);
+		Course c = driver._courses.get(courseCode);
+		CourseOffering co = new CourseOffering(c, semester);
 		int advanceIncorrectInt = 13;
 		assertFalse(driver.advanceWeek(co, advanceIncorrectInt));
 	}
