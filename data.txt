@@ -6,11 +6,7 @@ Student;s3705295;Ahdeiah Gurgani;1234
 Student;s3117889;Sherri McRae;1234
 Lecturer;e12345;Halil Ali;1234
 Lecturer;e24680;Andy Song;1234
-Admin;a3587842;Tiaotiao Li;1234
-Admin;a3706098;Gustav Johansson;1234
-Admin;a3685849;Huani Neupane;1234
-Admin;a3665980;Rudi Basiran;1234
-Admin;a3705295;Ahdeiah Gurgani;1234
+Admin;Admin;Admin;1234
 ProgramCoordinator;e23456;Margeret Hamilton;1234
 Course;ISYS1117;Software Engineering Fundamentals;This course is designed to provide you opportunity to gain knowledge and skills necessary to analyze, design and implement complex software engineering projects. You should learn to analyze and design fairly complex real-life systems, working as teams. The project based approach used requires you to review and refine your design iteratively based on regular feedback from staff.
 Course;COSC2531;Programming Fundamentals;Programming skill represents a generic problem solving ability, and is considered essential for anyone involved in the development and maintenance of software systems.

@@ -23,6 +23,10 @@ public class CourseOffering {
 		_week = 0;
 	}
 
+	public Boolean courseOffered(CourseOffering co) {
+		return ((_courseCode.equals(co.getCourseCode()) & _semester.equals(co.getSemester())) ? true : false);
+	}
+
 	public Boolean courseOffered(String courseCode, String semester) {
 		return ((_courseCode.equals(courseCode) & _semester.equals(semester)) ? true : false);
 	}

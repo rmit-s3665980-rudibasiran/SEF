@@ -15,6 +15,7 @@ class JUnitR {
 
 	@Test
 	public void setUp() {
+		System.out.println("Test setUp: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -24,8 +25,6 @@ class JUnitR {
 				System.out.println(
 						"User: " + u.getName() + separator + u.getID() + separator + GlobalClass.roleDesc[u.getRole()]);
 			}
-
-			Helper.drawLine();
 
 			for (Entry<String, Course> entry : driver._courses.entrySet()) {
 				Course c = entry.getValue();
@@ -38,25 +37,23 @@ class JUnitR {
 						+ driver._courses.get(co.getCourseCode()).getCourseTitle());
 			}
 
-			Helper.drawLine();
-
-			Helper.drawLine();
 			for (int i = 0; i < driver._enrolment.size(); i++)
 				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + separator
 						+ driver._enrolment.get(i).getCourseCode() + separator + driver._enrolment.get(i).getSemester()
 						+ separator + driver._enrolment.get(i).getGrade());
 
-			Helper.drawLine();
-
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test setUp: End");
+		Helper.drawLine();
+
 	};
 
 	@Test
 	// add new waiver and add existing waiver
 	public void addWaiver() {
+		System.out.println("Test addWaiver: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -80,13 +77,16 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test addWaiver: End");
+		Helper.drawLine();
 	};
 
 	// change student's max load per term
 	@Test
 	public void changeLoadCorrectValue() {
+
+		System.out.println("Test changeLoadCorrectValue: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -97,12 +97,14 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test changeLoadCorrectValue: End");
+		Helper.drawLine();
 	};
 
 	@Test
 	public void changeLoadIncorrectValue() {
+		System.out.println("Test changeLoadIncorrectValue: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -114,11 +116,14 @@ class JUnitR {
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
 		}
+		System.out.println("Test changeLoadIncorrectValue: End");
+		Helper.drawLine();
 	};
 
 	// what if student is doing 2 modules for the term and maxLoad changed to 1
 	@Test
 	public void changeLoadHitMaxLoad() {
+		System.out.println("Test changeLoadHitMaxLoad: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -132,23 +137,25 @@ class JUnitR {
 			Enrolment e = new Enrolment(s, co);
 			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
 					+ " | MaxLoad = " + s.getMaxLoad());
-			Helper.drawLine();
+
 			driver._enrolment.add(e);
 			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
 					+ " | MaxLoad = " + s.getMaxLoad());
-			Helper.drawLine();
+
 			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), semester)
 					& driver.changeLoad(s.getID(), semester, newLoad));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test changeLoadHitMaxLoad: End");
+		Helper.drawLine();
 	};
 
 	// add course offerings - new and existing
 	@Test
 	public void addOffering() {
+		System.out.println("Test addOffering: Begin");
 
 		try {
 			Driver driver = new Driver();
@@ -158,9 +165,9 @@ class JUnitR {
 			String semester = "1810";
 
 			// did not add and therefore, false
-			assertTrue(driver._courseOffering.get(courseCode + semester).getCourseCode().equals(""));
+			assertFalse(driver._courseOffering.containsKey(courseCode + semester));
+
 			System.out.println("Cannot get CourseOffering: " + courseCode + separator + semester);
-			Helper.drawLine();
 
 			// added offering
 			driver._courseOffering.put(courseCode + semester, new CourseOffering(courseCode, semester));
@@ -170,14 +177,17 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+
+		System.out.println("Test addOffering: End");
+		Helper.drawLine();
 
 	};
 
 	// add lecturer to course offering - new and existing
 	@Test
 	public void addLecturer() {
+		System.out.println("Test addLecturer: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -190,7 +200,6 @@ class JUnitR {
 
 			assertFalse(il >= 0);
 			System.out.println("Cannot get CourseOffering Lecturers: " + il);
-			Helper.drawLine();
 
 			driver._courseOffering.get(key).addLecturer(l);
 			il = driver.getIndexOfLecturer(driver._courseOffering.get(key).getLecturer(), l);
@@ -199,35 +208,38 @@ class JUnitR {
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test addLecturer: End");
+		Helper.drawLine();
 	};
 
 	// add course - new and existing
 	@Test
 	public void addCourse() {
-
+		System.out.println("Test addCourse: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
 
 			String courseCode = "MATH101";
 			String title = "Maths for Beginners";
-			assertTrue(driver._courses.get(courseCode).equals(""));
+			assertFalse(driver._courses.containsKey(courseCode));
 			System.out.println("JUnit.addCourse | Cannot find Course: " + courseCode);
-			Helper.drawLine();
+
 			driver._courses.put(courseCode, new Course(courseCode, title));
 			assertTrue(driver._courses.get(courseCode).getCourseTitle().equals(title));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
-		} finally {
 		}
+		System.out.println("Test addCourse: End");
+		Helper.drawLine();
 	};
 
 	// add enrolment - new and existing
 	@Test
 	public void addEnrolment() {
+		System.out.println("Test addEnrolment: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
@@ -259,6 +271,8 @@ class JUnitR {
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
 		}
+		System.out.println("Test addEnrolment: End");
+		Helper.drawLine();
 	};
 
 	// test template
