@@ -25,7 +25,7 @@ public class Enrolment {
 		_grade = grade;
 	}
 
-	public Boolean isStudentEnrolled(Student s, CourseOffering co) {
+	public Boolean isEnrolled(Student s, CourseOffering co) {
 		return (_student.getID().equals(s.getID()) & _student.getName().equals(s.getName())
 				& _courseOffering.getSemester().equals(co.getSemester())
 				& _courseOffering.getCourseCode().equals(co.getCourseCode()) ? true : false);
@@ -63,5 +63,10 @@ public class Enrolment {
 
 	public CourseOffering getCourseOffering() {
 		return _courseOffering;
+	}
+
+	public String getKey() {
+		String key = Helper.createEnrolmentKey(_student, _courseOffering);
+		return key;
 	}
 }

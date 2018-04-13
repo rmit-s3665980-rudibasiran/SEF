@@ -15,6 +15,15 @@ Notes:
  */
 
 public class Helper {
+
+	public static String createEnrolmentKey(Student s, CourseOffering co) {
+		return s.getID() + co.getCourseCode() + co.getSemester();
+	}
+
+	public static String createCourseOfferingKey(CourseOffering co) {
+		return co.getCourseCode() + co.getSemester();
+	}
+
 	public static String getDate() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		return dateFormat.format(new Date());

@@ -37,14 +37,15 @@ class JUnitR {
 						+ driver._courses.get(co.getCourseCode()).getCourseTitle());
 			}
 
-			for (int i = 0; i < driver._enrolment.size(); i++) {
-				Enrolment e = driver._enrolment.get(i);
-				Student s = e.getStudent();
-				CourseOffering co = e.getCourseOffering();
-				Course c = driver._courses.get(e.getCourseCode());
-				System.out.println("Enrolment: " + s.getID() + separator + s.getName() + separator + e.getCourseCode()
-						+ separator + c.getCourseTitle() + separator + separator + e.getSemester() + separator
-						+ e.getGrade());
+			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+				Enrolment ei = entry.getValue();
+				Student si = ei.getStudent();
+				CourseOffering coi = ei.getCourseOffering();
+				Course ci = driver._courses.get(ei.getCourseCode());
+				System.out.println("Enrolment: " + si.getID() + separator + si.getName() + separator
+						+ ei.getCourseCode() + separator + ci.getCourseTitle() + separator + separator
+						+ ei.getSemester() + separator + ei.getGrade());
+
 			}
 
 		} catch (Exception e) {
@@ -141,14 +142,14 @@ class JUnitR {
 			Course c = driver._courses.get(courseCode);
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
-					+ " | MaxLoad = " + s.getMaxLoad());
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s, semester) + " | MaxLoad = "
+					+ s.getMaxLoad());
 
-			driver._enrolment.add(e);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s.getID(), semester)
-					+ " | MaxLoad = " + s.getMaxLoad());
+			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
+			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s, semester) + " | MaxLoad = "
+					+ s.getMaxLoad());
 
-			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s.getID(), semester)
+			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s, semester)
 					& driver.changeLoad(s.getID(), semester, newLoad));
 
 		} catch (Exception e) {
@@ -169,18 +170,20 @@ class JUnitR {
 
 			String courseCode = "COSC2615";
 			String semester = "1810";
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
+			String coKey = Helper.createCourseOfferingKey(co);
 
 			// did not add and therefore, false
-			assertFalse(driver._courseOffering.containsKey(courseCode + semester));
+			assertFalse(driver._courseOffering.containsKey(co));
 
-			System.out.println("Cannot get CourseOffering: " + courseCode + separator + semester);
+			System.out.println("Cannot get CourseOffering: " + co.getCourseCode() + separator + co.getSemester());
 
 			// added offering
-			Course c = driver._courses.get(courseCode);
-			driver._courseOffering.put(courseCode + semester, new CourseOffering(c, semester));
+			driver._courseOffering.put(coKey, new CourseOffering(c, semester));
 
 			// have added and therefore, true
-			assertTrue(driver._courseOffering.get(courseCode + semester).courseOffered(courseCode, semester));
+			assertTrue(co.courseOffered(co));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -201,16 +204,20 @@ class JUnitR {
 
 			User u = driver._users.get("e12345");
 			Lecturer l = (Lecturer) u;
-			String key = "ISYS1117" + "1810";
+			String courseCode = "ISYS1117";
+			String semester = "1810";
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
+			String coKey = Helper.createCourseOfferingKey(co);
 
-			int il = driver.getIndexOfLecturer(driver._courseOffering.get(key).getLecturer(), l);
+			int il = driver.getIndexOfLecturer(driver._courseOffering.get(coKey).getLecturer(), l);
 
 			assertFalse(il >= 0);
 			System.out.println("Cannot get CourseOffering Lecturers: " + il);
 
-			driver._courseOffering.get(key).addLecturer(l);
-			il = driver.getIndexOfLecturer(driver._courseOffering.get(key).getLecturer(), l);
-			ArrayList<Lecturer> courseLecturer = driver._courseOffering.get(key).getLecturer();
+			driver._courseOffering.get(coKey).addLecturer(l);
+			il = driver.getIndexOfLecturer(driver._courseOffering.get(coKey).getLecturer(), l);
+			ArrayList<Lecturer> courseLecturer = driver._courseOffering.get(coKey).getLecturer();
 			assertEquals(courseLecturer.get(il).getID(), l.getID());
 
 		} catch (Exception e) {
@@ -259,22 +266,22 @@ class JUnitR {
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
 
-			if (driver._courseOffering.get(courseCode + semester).courseOffered(courseCode, semester))
+			if (driver._courseOffering.get(courseCode + semester).courseOffered(co))
 				System.out.println("Course Offered: " + " | " + co.getCourseCode() + separator + co.getSemester());
 			else
 				System.out.println("Course Not Offered: " + " | " + co.getCourseCode() + separator + co.getSemester());
 
-			if (driver.getIndexOfEnrolment(s, co) < 0)
+			if (driver._enrolment.containsKey(s.getID() + co.getCourseCode() + co.getSemester()))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else
 				System.out.println("Enrolment Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 
-			driver._enrolment.add(e);
+			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 
-			assertTrue(driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).isStudentEnrolled(s, co));
-			assertFalse(driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).hasPassed(s, co));
+			assertTrue(driver._enrolment.get(s.getID() + co.getCourseCode() + co.getSemester()).isEnrolled(s, co));
+			assertFalse(driver._enrolment.get(s.getID() + co.getCourseCode() + co.getSemester()).hasPassed(s, co));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);

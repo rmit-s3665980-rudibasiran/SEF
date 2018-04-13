@@ -2,9 +2,12 @@ package SEF;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Map.Entry;
+
 import org.junit.jupiter.api.Test;
 
 class JUnitH {
+	String separator = " | ";
 
 	@Test
 	void GradeTest() {
@@ -20,17 +23,17 @@ class JUnitH {
 		Course c = driver._courses.get(courseCode);
 		CourseOffering co = new CourseOffering(c, semester);
 		Enrolment e = new Enrolment(s, co, grade);
+		String eKey = Helper.createEnrolmentKey(s, co);
+		driver._enrolment.put(eKey, e);
 
-		driver._enrolment.add(e);
-
-		if (driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).isStudentEnrolled(s, co)) {
-			driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).setGrade(grade);
+		if (driver._enrolment.get(eKey).isEnrolled(s, co)) {
+			System.out.println("Enrolment exists, setting grade.");
+			driver._enrolment.get(eKey).setGrade(grade);
 		} else {
-			System.out.println("fail");
+			System.out.println("Enrolment does not exist, cannot get grade");
 		}
-		String output = driver._enrolment.get(driver.getIndexOfEnrolment(s, co)).getGrade();
+		String output = driver._enrolment.get(eKey).getGrade();
 		assertEquals(grade, output);
-
 	}
 
 	@Test
@@ -41,14 +44,17 @@ class JUnitH {
 
 		User u = driver._users.get("s3685849");
 		Student s = (Student) u;
-		for (int i = 0; i < driver._enrolment.size(); i++)
-			if (driver._enrolment.get(i).getStudent().getID().equals(s.getID()))
-				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + " | "
-						+ driver._enrolment.get(i).getStudent().getName() + " | "
-						+ driver._enrolment.get(i).getSemester() + " | " + driver._enrolment.get(i).getCourseCode()
-						+ " | " + driver._courses.get(driver._enrolment.get(i).getCourseCode()).getCourseTitle() + " | "
-						+ (driver._enrolment.get(i).getGrade().equals("") ? "-" : driver._enrolment.get(i).getGrade()));
+		for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+			Enrolment ei = entry.getValue();
+			Student si = ei.getStudent();
+			CourseOffering coi = ei.getCourseOffering();
+			Course ci = driver._courses.get(ei.getCourseCode());
+			if (ei.getCourseOffering().equals(coi) & ei.getStudent().getID().equals(s.getID()))
+				System.out.println("Enrolment: " + si.getID() + separator + si.getName() + separator
+						+ ei.getCourseCode() + separator + ci.getCourseTitle() + separator + ei.getSemester()
+						+ separator + (ei.getGrade().equals("") ? "-" : ei.getGrade()));
 
+		}
 		// should show waivers too & their status - whether added to Enrollment or still
 		// only in CourseOffering
 	}

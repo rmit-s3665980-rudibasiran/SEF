@@ -1,6 +1,7 @@
 package SEF;
 
-import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class Student extends User {
 
@@ -25,12 +26,15 @@ public class Student extends User {
 		return _maxLoad;
 	}
 
-	public int countEnrolment(ArrayList<Enrolment> e, String userID, String semester) {
+	public int countEnrolment(TreeMap<String, Enrolment> e, Student s, String semester) {
 		int count = 0;
-		for (int i = 0; i < e.size(); i++) {
-			if (e.get(i).getStudent().getID().equals(userID) & e.get(i).getSemester().equals(semester))
+
+		for (Entry<String, Enrolment> entry : e.entrySet()) {
+			Enrolment ei = entry.getValue();
+			if (ei.getStudent().getID().equals(s.getID()) & ei.getSemester().equals(semester))
 				count++;
 		}
+
 		return count;
 	}
 

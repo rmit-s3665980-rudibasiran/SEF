@@ -10,7 +10,9 @@ public class Driver {
 	TreeMap<String, User> _users = new TreeMap<String, User>();
 	TreeMap<String, Course> _courses = new TreeMap<String, Course>();
 	TreeMap<String, CourseOffering> _courseOffering = new TreeMap<String, CourseOffering>();
-	ArrayList<Enrolment> _enrolment = new ArrayList<>();
+	TreeMap<String, Enrolment> _enrolment = new TreeMap<String, Enrolment>();
+
+	// ArrayList<Enrolment> _enrolment = new ArrayList<>();
 
 	public Driver() {
 	}
@@ -79,7 +81,7 @@ public class Driver {
 					else
 						e = new Enrolment(s, co);
 
-					_enrolment.add(e);
+					_enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 
 				} else if (role.equals("Waiver")) {
 					String userID = input.next();
@@ -243,19 +245,6 @@ public class Driver {
 
 		return passed;
 
-	}
-
-	public int getIndexOfEnrolment(Student s, CourseOffering co) {
-		int result = -1;
-		for (int i = 0; i < _enrolment.size(); i++) {
-			if (_enrolment.get(i).getStudent().getID().equals(s.getID())
-					& _enrolment.get(i).getCourseCode().equals(co.getCourseCode())
-					& _enrolment.get(i).getSemester().equals(co.getSemester())) {
-				result = i;
-				break;
-			}
-		}
-		return result;
 	}
 
 	public int getIndexOfLecturer(ArrayList<Lecturer> lecturer, Lecturer l) {

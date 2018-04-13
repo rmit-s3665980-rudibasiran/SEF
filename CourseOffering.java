@@ -32,10 +32,6 @@ public class CourseOffering {
 				: false);
 	}
 
-	public Boolean courseOffered(String courseCode, String semester) {
-		return ((_course.getCourseCode().equals(courseCode) & _semester.equals(semester)) ? true : false);
-	}
-
 	public String getCourseCode() {
 		return _course.getCourseCode();
 	}
@@ -70,6 +66,10 @@ public class CourseOffering {
 
 	public ArrayList getLecturer() {
 		return _lecturer;
+	}
+
+	public Course getCourse() {
+		return _course;
 	}
 
 }
