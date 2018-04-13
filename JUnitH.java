@@ -11,7 +11,7 @@ class JUnitH {
 		Driver driver = new Driver();
 		driver.loadData();
 
-		User u = driver._users.get(driver.getIndexOfUser("s3685849"));
+		User u = driver._users.get("s3685849");
 		Student s = (Student) u;
 		String courseCode = "COSC1295";
 		String semester = "1810";
@@ -38,17 +38,14 @@ class JUnitH {
 		Driver driver = new Driver();
 		driver.loadData();
 
-		User u = driver._users.get(driver.getIndexOfUser("s3685849"));
+		User u = driver._users.get("s3685849");
 		Student s = (Student) u;
 		for (int i = 0; i < driver._enrolment.size(); i++)
 			if (driver._enrolment.get(i).getStudent().getID().equals(s.getID()))
 				System.out.println("Enrolment: " + driver._enrolment.get(i).getStudent().getID() + " | "
 						+ driver._enrolment.get(i).getStudent().getName() + " | "
 						+ driver._enrolment.get(i).getSemester() + " | " + driver._enrolment.get(i).getCourseCode()
-						+ " | "
-						+ driver._courses.get(driver.getIndexOfCourse(driver._enrolment.get(i).getCourseCode()))
-								.getCourseTitle()
-						+ " | "
+						+ " | " + driver._courses.get(driver._enrolment.get(i).getCourseCode()).getCourseTitle() + " | "
 						+ (driver._enrolment.get(i).getGrade().equals("") ? "-" : driver._enrolment.get(i).getGrade()));
 
 		// should show waivers too & their status - whether added to Enrollment or still

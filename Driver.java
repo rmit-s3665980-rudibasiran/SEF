@@ -2,14 +2,14 @@ package SEF;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Driver {
 
-	ArrayList<Course> _courses = new ArrayList<>();
-	ArrayList<CourseOffering> _courseOffering = new ArrayList<>();
-	ArrayList<User> _users = new ArrayList<>();
+	TreeMap<String, User> _users = new TreeMap<String, User>();
+	TreeMap<String, Course> _courses = new TreeMap<String, Course>();
+	TreeMap<String, CourseOffering> _courseOffering = new TreeMap<String, CourseOffering>();
 	ArrayList<Enrolment> _enrolment = new ArrayList<>();
 
 	public Driver() {
@@ -29,36 +29,37 @@ public class Driver {
 					String userID = input.next();
 					String name = input.next();
 					String password = input.next();
-					_users.add(new Student(userID, name, password, GlobalClass.Student));
+					_users.put(userID, new Student(userID, name, password, GlobalClass.Student));
 
 				} else if (role.equals(GlobalClass.roleDesc[GlobalClass.Lecturer])) {
 					String userID = input.next();
 					String name = input.next();
 					String password = input.next();
-					_users.add(new Lecturer(userID, name, password, GlobalClass.Lecturer));
+					_users.put(userID, new Lecturer(userID, name, password, GlobalClass.Lecturer));
 
 				} else if (role.equals(GlobalClass.roleDesc[GlobalClass.ProgramCoordinator])) {
 					String userID = input.next();
 					String name = input.next();
 					String password = input.next();
-					_users.add(new ProgramCoordinator(userID, name, password, GlobalClass.ProgramCoordinator));
+					_users.put(userID, new ProgramCoordinator(userID, name, password, GlobalClass.ProgramCoordinator));
 
 				} else if (role.equals(GlobalClass.roleDesc[GlobalClass.Admin])) {
 					String userID = input.next();
 					String name = input.next();
 					String password = input.next();
-					_users.add(new Admin(userID, name, password, GlobalClass.Admin));
+					_users.put(userID, new Admin(userID, name, password, GlobalClass.Admin));
 
 				} else if (role.equals("Course")) {
 					String courseCode = input.next();
 					String title = input.next();
 					String desc = input.next();
-					_courses.add(new Course(courseCode, title, desc));
+					_courses.put(courseCode, new Course(courseCode, title, desc));
 
 				} else if (role.equals("CourseOffering")) {
 					String courseCode = input.next();
 					String semester = input.next();
-					_courseOffering.add(new CourseOffering(courseCode, semester));
+					String key = courseCode + semester;
+					_courseOffering.put(key, new CourseOffering(courseCode, semester));
 
 				} else if (role.equals("Enrolment")) {
 
@@ -67,8 +68,7 @@ public class Driver {
 					String semester = input.next();
 					String grade = input.next();
 
-					int i = getIndexOfUser(userID);
-					User u = _users.get(i);
+					User u = _users.get(userID);
 					Student s = (Student) u;
 					Enrolment e;
 					CourseOffering co = new CourseOffering(courseCode, semester);
@@ -85,16 +85,12 @@ public class Driver {
 					String semester = input.next();
 					String reason = input.next();
 
-					User u = _users.get(getIndexOfUser(userID));
+					User u = _users.get(userID);
 					Student s = (Student) u;
-					_courseOffering.get(getIndexOfOffering(courseCode, semester)).addWaiver(s, reason);
+					_courseOffering.get(courseCode + semester).addWaiver(s, reason);
 				}
 			}
 
-			_users.sort(Comparator.comparing(User::getName));
-			_courses.sort(Comparator.comparing(Course::getCourseCode));
-			_enrolment.sort(Comparator.comparing(Enrolment::getCourseCode));
-			_courseOffering.sort(Comparator.comparing(CourseOffering::getCourseCode));
 		}
 
 		catch (Exception e) {
@@ -238,52 +234,6 @@ public class Driver {
 
 	public void applyWaivers(Student s, CourseOffering co, String reason) {
 
-	}
-
-	public int getIndexOfUser(String userID) {
-		int result = -1;
-		for (int i = 0; i < _users.size(); i++) {
-			if (_users.get(i).getID().equals(userID)) {
-				result = i;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public int getIndexOfOffering(String courseCode, String semester) {
-		int result = -1;
-		for (int i = 0; i < _courseOffering.size(); i++) {
-			if (_courseOffering.get(i).getSemester().equals(semester)
-					& _courseOffering.get(i).getCourseCode().equals(courseCode)) {
-				result = i;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public int getIndexOfOffering(CourseOffering co) {
-		int result = -1;
-		for (int i = 0; i < _courseOffering.size(); i++) {
-			if (_courseOffering.get(i).getSemester().equals(co.getSemester())
-					& _courseOffering.get(i).getCourseCode().equals(co.getCourseCode())) {
-				result = i;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public int getIndexOfCourse(String courseCode) {
-		int result = -1;
-		for (int i = 0; i < _courses.size(); i++) {
-			if (_courses.get(i).getCourseCode().equals(courseCode)) {
-				result = i;
-				break;
-			}
-		}
-		return result;
 	}
 
 	public int getIndexOfEnrolment(Student s, CourseOffering co) {
