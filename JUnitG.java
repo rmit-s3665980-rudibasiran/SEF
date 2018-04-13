@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map.Entry;
+
 import org.junit.jupiter.api.Test;
 
 class JUnitG {
@@ -23,7 +25,7 @@ class JUnitG {
 			Course c = driver._courses.get(courseCode);
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
-			String key = s.getID() + co.getCourseCode() + co.getSemester();
+			String eKey = Helper.createEnrolmentKey(s, co);
 
 			if (driver._courseOffering.get(courseCode + semester).courseOffered(co))
 				System.out.println("Course Offered: " + co.getCourseCode() + separator + co.getSemester());
@@ -31,7 +33,7 @@ class JUnitG {
 				System.out.println(
 						"Course Not Offered: " + separator + co.getCourseCode() + separator + co.getSemester());
 
-			if (driver._enrolment.get(key).isEnrolled(s, co))
+			if (driver._enrolment.containsKey(eKey))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else
@@ -42,8 +44,8 @@ class JUnitG {
 			System.out.println("Added Enrolment : " + e.getStudent().getID() + separator + e.getCourseCode() + separator
 					+ e.getSemester());
 
-			key = s.getID() + co.getCourseCode() + co.getSemester();
-			if (driver._enrolment.get(key).getKey().equals(e.getKey()))
+			eKey = Helper.createEnrolmentKey(s, co);
+			if (driver._enrolment.get(eKey).getKey().equals(e.getKey()))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else
@@ -55,26 +57,18 @@ class JUnitG {
 			ePast.setGrade("HD");
 			driver._enrolment.put(s.getID() + coPast.getCourseCode() + coPast.getSemester(), ePast);
 
-			for (int i = 0; i < driver._enrolment.size(); i++) {
-				Enrolment eTemp = driver._enrolment.get(i);
-				c = driver._courses.get(eTemp.getCourseCode());
-				CourseOffering coTemp = new CourseOffering(c, eTemp.getSemester());
+			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+				Enrolment ei = entry.getValue();
+				Student si = ei.getStudent();
+				CourseOffering coi = ei.getCourseOffering();
+				Course ci = driver._courses.get(ei.getCourseCode());
 
-				if (eTemp.hasPassed(s, coTemp) & eTemp.getStudent().getID().equals(s.getID())) {
+				if (ei.hasPassed(s, coi) & ei.getStudent().getID().equals(s.getID())) {
 					System.out.println("Student Already Passed, cannot add for " + e.getCourseCode() + separator
-							+ e.getSemester() + ": " + e.getStudent().getID() + separator + eTemp.getCourseCode()
-							+ separator + eTemp.getSemester() + separator + eTemp.getGrade());
+							+ e.getSemester() + ": " + e.getStudent().getID() + separator + ei.getCourseCode()
+							+ separator + ei.getSemester() + separator + ei.getGrade());
 				}
 			}
-
-			driver._enrolment.remove(e);
-			System.out.println("Enrolment Removed");
-			if (driver._enrolment.get(key).isEnrolled(s, co))
-				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
-						+ separator + e.getSemester());
-			else
-				System.out.println("Enrolment Found: " + e.getStudent().getID() + separator + e.getCourseCode()
-						+ separator + e.getSemester());
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -96,14 +90,14 @@ class JUnitG {
 			Course c = driver._courses.get(courseCode);
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
-			String key = Helper.createEnrolmentKey(s, co);
+			String eKey = Helper.createEnrolmentKey(s, co);
 			if (driver._courseOffering.get(courseCode + semester).courseOffered(co))
 				System.out.println("Course Offered: " + co.getCourseCode() + separator + co.getSemester());
 			else
 				System.out.println(
 						"Course Not Offered: " + separator + co.getCourseCode() + separator + co.getSemester());
 
-			if (driver._enrolment.get(key).isEnrolled(s, co))
+			if (driver._enrolment.containsKey(eKey))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else
@@ -113,7 +107,7 @@ class JUnitG {
 			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 			System.out.println("Added Enrolment : " + e.getStudent().getID() + separator + e.getCourseCode() + separator
 					+ e.getSemester());
-			if (driver._enrolment.get(key).isEnrolled(s, co))
+			if (driver._enrolment.get(eKey).isEnrolled(s, co))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else
@@ -125,15 +119,16 @@ class JUnitG {
 			ePast.setGrade("F");
 			driver._enrolment.put(s.getID() + coPast.getCourseCode() + coPast.getSemester(), ePast);
 
-			for (int i = 0; i < driver._enrolment.size(); i++) {
-				Enrolment eTemp = driver._enrolment.get(i);
-				c = driver._courses.get(eTemp.getCourseCode());
-				CourseOffering coTemp = new CourseOffering(c, eTemp.getSemester());
+			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+				Enrolment ei = entry.getValue();
+				Student si = ei.getStudent();
+				CourseOffering coi = ei.getCourseOffering();
+				Course ci = driver._courses.get(ei.getCourseCode());
 
-				if (eTemp.hasPassed(s, coTemp) & eTemp.getStudent().getID().equals(s.getID()))
+				if (ei.hasPassed(s, coi) & ei.getStudent().getID().equals(s.getID()))
 					System.out.println("Student Already Passed, cannot add for " + e.getCourseCode() + separator
-							+ e.getSemester() + ": " + e.getStudent().getID() + separator + eTemp.getCourseCode()
-							+ separator + eTemp.getSemester() + separator + eTemp.getGrade());
+							+ e.getSemester() + ": " + e.getStudent().getID() + separator + ei.getCourseCode()
+							+ separator + ei.getSemester() + separator + ei.getGrade());
 			}
 
 		} catch (Exception e) {
@@ -297,31 +292,34 @@ class JUnitG {
 			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 			e.setGrade("HD");
 
-			for (int i = 0; i < driver._enrolment.size(); i++) {
-				Enrolment eTemp = driver._enrolment.get(i);
-				c = driver._courses.get(eTemp.getCourseCode());
-				CourseOffering coTemp = new CourseOffering(c, eTemp.getSemester());
+			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+				Enrolment ei = entry.getValue();
+				Student si = ei.getStudent();
+				CourseOffering coi = ei.getCourseOffering();
+				Course ci = driver._courses.get(ei.getCourseCode());
 
-				if (eTemp.hasPassed(s, coTemp) & eTemp.getStudent().getID().equals(s.getID())) {
+				if (ei.hasPassed(s, coi) & ei.getStudent().getID().equals(s.getID())) {
 					System.out.println("Student already has grade, cannot drop : " + e.getStudent().getID() + separator
-							+ eTemp.getCourseCode() + separator + eTemp.getSemester() + separator + eTemp.getGrade());
+							+ ei.getCourseCode() + separator + ei.getSemester() + separator + ei.getGrade());
 				}
 			}
 
 			e.setGrade("");
 
-			for (int i = 0; i < driver._enrolment.size(); i++) {
-				Enrolment eTemp = driver._enrolment.get(i);
-				c = driver._courses.get(eTemp.getCourseCode());
-				CourseOffering coTemp = new CourseOffering(c, eTemp.getSemester());
+			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
+				Enrolment ei = entry.getValue();
+				Student si = ei.getStudent();
+				CourseOffering coi = ei.getCourseOffering();
+				Course ci = driver._courses.get(ei.getCourseCode());
 
-				if (eTemp.hasPassed(s, coTemp) & eTemp.getStudent().getID().equals(s.getID())) {
+				if (ei.hasPassed(s, coi) & ei.getStudent().getID().equals(s.getID())) {
 					System.out.println("Student already has grade, cannot drop : " + e.getStudent().getID() + separator
-							+ eTemp.getCourseCode() + separator + eTemp.getSemester() + separator + eTemp.getGrade());
+							+ ei.getCourseCode() + separator + ei.getSemester() + separator + ei.getGrade());
 				}
 			}
 
-			driver._enrolment.remove(e);
+			String eKey = Helper.createEnrolmentKey(s, co);
+			driver._enrolment.remove(eKey);
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
