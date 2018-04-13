@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Course {
 
+	// unique key(s)
 	private String _courseCode;
+
+	// about
 	private String _cTitle;
 	private String _cDesc;
-
 	private ProgramCoordinator _programCoordinator;
 	private Boolean _active;
 	private ArrayList<String> _preRequisite = new ArrayList<>();

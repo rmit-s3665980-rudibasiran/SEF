@@ -2,10 +2,13 @@ package SEF;
 
 public class User {
 
-	private int _role;
+	// unique key(s)
 	private String _userID;
+
+	// about
 	private String _password;
 	private String _name;
+	private int _role;
 
 	public User() {
 

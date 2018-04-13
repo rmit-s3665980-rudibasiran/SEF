@@ -238,6 +238,13 @@ public class Driver {
 
 	}
 
+	public Boolean checkPreReq(Student s, Enrolment e) {
+		Boolean passed = true;
+
+		return passed;
+
+	}
+
 	public int getIndexOfEnrolment(Student s, CourseOffering co) {
 		int result = -1;
 		for (int i = 0; i < _enrolment.size(); i++) {

@@ -4,8 +4,11 @@ import java.util.Arrays;
 
 public class Enrolment {
 
+	// unique key(s)
 	private Student _student;
 	private CourseOffering _courseOffering;
+
+	// about
 	private String _grade;
 
 	public Enrolment() {
@@ -38,8 +41,7 @@ public class Enrolment {
 
 	public Boolean hasPassed(Student s, CourseOffering co) {
 		Boolean passed = false;
-		if ((_student.getID().equals(s.getID()) & _student.getName().equals(s.getName())
-				& _courseOffering.getSemester().equals(co.getSemester())
+		if ((_student.getID().equals(s.getID()) & _courseOffering.getSemester().equals(co.getSemester())
 				& _courseOffering.getCourseCode().equals(co.getCourseCode()))
 				& (Arrays.asList(GlobalClass.passGrades).contains(_grade)))
 			passed = true;

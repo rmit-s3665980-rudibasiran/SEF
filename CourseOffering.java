@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CourseOffering {
+
+	// unique key(s)
 	private Course _course;
 	private String _semester;
+
+	// about
 	private int _week;
 	private int _maxStudents;
 	private ArrayList<Lecturer> _lecturer = new ArrayList<>();

@@ -297,6 +297,12 @@ class JUnitR {
 			assertFalse(false);
 			assertEquals(1, 1);
 			assertNotSame(2, 1);
+			// fail("");
+			// import static org.junit.jupiter.api.Assertions.fail;
+			// import static org.junit.Assert.assertEquals;
+			// import static org.junit.Assert.assertFalse;
+			// import static org.junit.Assert.assertNotSame;
+			// import static org.junit.Assert.assertTrue;
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
