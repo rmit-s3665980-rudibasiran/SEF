@@ -107,7 +107,7 @@ class JUnitG {
 			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 			System.out.println("Added Enrolment : " + e.getStudent().getID() + separator + e.getCourseCode() + separator
 					+ e.getSemester());
-			if (driver._enrolment.get(eKey).isEnrolled(s, co))
+			if (driver._enrolment.containsKey(eKey))
 				System.out.println("Enrolment Not Found: " + e.getStudent().getID() + separator + e.getCourseCode()
 						+ separator + e.getSemester());
 			else

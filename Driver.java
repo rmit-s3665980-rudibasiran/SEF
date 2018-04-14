@@ -60,9 +60,10 @@ public class Driver {
 				} else if (role.equals("CourseOffering")) {
 					String courseCode = input.next();
 					String semester = input.next();
-					String key = courseCode + semester;
 					Course c = _courses.get(courseCode);
-					_courseOffering.put(key, new CourseOffering(c, semester));
+					CourseOffering co = new CourseOffering(c, semester);
+					String coKey = Helper.createCourseOfferingKey(co);
+					_courseOffering.put(coKey, new CourseOffering(c, semester));
 
 				} else if (role.equals("Enrolment")) {
 
@@ -81,7 +82,7 @@ public class Driver {
 					else
 						e = new Enrolment(s, co);
 
-					_enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
+					_enrolment.put(Helper.createEnrolmentKey(s, co), e);
 
 				} else if (role.equals("Waiver")) {
 					String userID = input.next();

@@ -264,6 +264,7 @@ class JUnitR {
 			Course c = driver._courses.get(courseCode);
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
+			String eKey = Helper.createEnrolmentKey(s, co);
 
 			if (driver._courseOffering.get(courseCode + semester).courseOffered(co))
 				System.out.println("Course Offered: " + " | " + co.getCourseCode() + separator + co.getSemester());
@@ -279,8 +280,8 @@ class JUnitR {
 
 			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
 
-			assertTrue(driver._enrolment.get(s.getID() + co.getCourseCode() + co.getSemester()).isEnrolled(s, co));
-			assertFalse(driver._enrolment.get(s.getID() + co.getCourseCode() + co.getSemester()).hasPassed(s, co));
+			assertTrue(driver._enrolment.containsKey(eKey));
+			assertFalse(driver._enrolment.get(eKey).hasPassed(s, co));
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
