@@ -21,20 +21,20 @@ class JUnitR {
 			driver.loadData();
 
 			for (Entry<String, User> entry : driver._users.entrySet()) {
-				User u = entry.getValue();
-				System.out.println(
-						"User: " + u.getName() + separator + u.getID() + separator + GlobalClass.roleDesc[u.getRole()]);
+				User ui = entry.getValue();
+				System.out.println("User: " + ui.getID() + separator + ui.getName() + separator
+						+ GlobalClass.roleDesc[ui.getRole()]);
 			}
 
 			for (Entry<String, Course> entry : driver._courses.entrySet()) {
-				Course c = entry.getValue();
-				System.out.println("Course: " + c.getCourseCode() + separator + c.getCourseTitle());
+				Course ci = entry.getValue();
+				System.out.println("Course: " + ci.getCourseCode() + separator + ci.getCourseTitle());
 			}
 
 			for (Entry<String, CourseOffering> entry : driver._courseOffering.entrySet()) {
-				CourseOffering co = entry.getValue();
-				System.out.println("Course Offering: " + co.getSemester() + separator + co.getCourseCode() + separator
-						+ driver._courses.get(co.getCourseCode()).getCourseTitle());
+				CourseOffering coi = entry.getValue();
+				System.out.println("Course Offering: " + coi.getCourseCode() + separator + coi.getSemester() + separator
+						+ driver._courses.get(coi.getCourseCode()).getCourseTitle());
 			}
 
 			for (Entry<String, Enrolment> entry : driver._enrolment.entrySet()) {
@@ -43,8 +43,8 @@ class JUnitR {
 				CourseOffering coi = ei.getCourseOffering();
 				Course ci = driver._courses.get(ei.getCourseCode());
 				System.out.println("Enrolment: " + si.getID() + separator + si.getName() + separator
-						+ ei.getCourseCode() + separator + ci.getCourseTitle() + separator + separator
-						+ ei.getSemester() + separator + ei.getGrade());
+						+ ei.getCourseCode() + separator + ci.getCourseTitle() + separator + ei.getSemester()
+						+ separator + ei.getGrade());
 
 			}
 
@@ -71,15 +71,28 @@ class JUnitR {
 			String courseCode = "COSC2531";
 			String semester = "1810";
 			String reason = "Prior experience";
-
+			Course c = driver._courses.get(courseCode);
+			CourseOffering co = new CourseOffering(c, semester);
+			String coKey = Helper.createCourseOfferingKey(co);
+			System.out.println("Requesting waiver for: " + s.getID() + separator + co.getCourseCode() + separator
+					+ co.getSemester());
 			// assertFalse to check that student does not have this particular waiver
-			assertFalse(driver._courseOffering.get(courseCode + semester).hasWaiver(s));
+			if (driver._courseOffering.get(coKey).hasWaiver(s))
+				System.out.println(
+						"Waiver Exists: " + s.getID() + separator + co.getCourseCode() + separator + co.getSemester());
+			else
+				System.out.println("Waiver does not Exist: " + s.getID() + separator + co.getCourseCode() + separator
+						+ co.getSemester());
 
 			// add waiver to courseOffering waivers
-			driver._courseOffering.get(courseCode + semester).addWaiver(s, reason);
-
-			// assertTrue to check that student does indeed have waiver
-			assertTrue(driver._courseOffering.get(courseCode + semester).hasWaiver(s));
+			driver._courseOffering.get(coKey).addWaiver(s, reason);
+			System.out.println("Added waiver for: " + co.getCourseCode() + separator + co.getSemester());
+			if (driver._courseOffering.get(coKey).hasWaiver(s))
+				System.out.println(
+						"Waiver Exists: " + s.getID() + separator + co.getCourseCode() + separator + co.getSemester());
+			else
+				System.out.println("Waiver does not Exist: " + s.getID() + separator + co.getCourseCode() + separator
+						+ co.getSemester());
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -90,39 +103,26 @@ class JUnitR {
 
 	// change student's max load per term
 	@Test
-	public void changeLoadCorrectValue() {
+	public void changeLoad() {
 
-		System.out.println("Test changeLoadCorrectValue: Begin");
+		System.out.println("Test changeLoad: Begin");
 		try {
 			Driver driver = new Driver();
 			driver.loadData();
 
 			int newLoad = 2;
 			String userID = driver._users.get("s3665980").getID();
+			System.out.println("Increasing Load to " + newLoad + " Successful");
 			assertTrue(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
 
-		} catch (Exception e) {
-			RMITExceptions.handleExceptions(e);
-		}
-		System.out.println("Test changeLoadCorrectValue: End");
-		Helper.drawLine();
-	};
+			newLoad = 12;
 
-	@Test
-	public void changeLoadIncorrectValue() {
-		System.out.println("Test changeLoadIncorrectValue: Begin");
-		try {
-			Driver driver = new Driver();
-			driver.loadData();
-
-			int newLoad = 12;
-			String userID = driver._users.get("s3665980").getID();
 			assertFalse(newLoad <= GlobalClass.maxLoad & driver.changeLoad(userID, "1810", newLoad));
-
+			System.out.println("Increasing Load to " + newLoad + " Unsuccessful");
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
 		}
-		System.out.println("Test changeLoadIncorrectValue: End");
+		System.out.println("Test changeLoad: End");
 		Helper.drawLine();
 	};
 
@@ -135,22 +135,26 @@ class JUnitR {
 			driver.loadData();
 
 			int newLoad = 1;
-			User u = driver._users.get("s3665980");
-			Student s = (Student) u;
+			Student s = (Student) driver._users.get("s3665980");
 			String courseCode = "COSC2531";
 			String semester = "1810";
 			Course c = driver._courses.get(courseCode);
 			CourseOffering co = new CourseOffering(c, semester);
 			Enrolment e = new Enrolment(s, co);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s, semester) + " | MaxLoad = "
-					+ s.getMaxLoad());
+			String eKey = Helper.createEnrolmentKey(s, co);
 
-			driver._enrolment.put(s.getID() + co.getCourseCode() + co.getSemester(), e);
-			System.out.println("Enrolment = " + s.countEnrolment(driver._enrolment, s, semester) + " | MaxLoad = "
-					+ s.getMaxLoad());
+			System.out.println("Checking Current Load = " + s.countEnrolment(driver._enrolment, s, semester)
+					+ " | MaxLoad = " + s.getMaxLoad());
+
+			driver._enrolment.put(eKey, e);
 
 			assertFalse(newLoad >= s.countEnrolment(driver._enrolment, s, semester)
 					& driver.changeLoad(s.getID(), semester, newLoad));
+
+			System.out.println(
+					"Adding Enrolment :" + s.getID() + separator + e.getCourseCode() + separator + e.getSemester());
+			System.out.println("Checking New Load: " + s.countEnrolment(driver._enrolment, s, semester)
+					+ " | MaxLoad = " + s.getMaxLoad());
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);
@@ -176,10 +180,20 @@ class JUnitR {
 
 			// did not add and therefore, false
 			if (driver._courseOffering.containsKey(coKey))
-				System.out.println("Cannot get CourseOffering: " + co.getCourseCode() + separator + co.getSemester());
+				System.out.println("CourseOffering Exists: " + co.getCourseCode() + separator + co.getSemester());
+			else
+				System.out
+						.println("CourseOffering does not Exist: " + co.getCourseCode() + separator + co.getSemester());
 
-			// added offering
+			System.out.println("No. of CourseOffering before Addition: " + driver._courseOffering.size());
+			// added offering. since treemap does not allow duplicates, it doesn't matter
+			// how
+			// many time we add
 			driver._courseOffering.put(coKey, new CourseOffering(c, semester));
+			driver._courseOffering.put(coKey, new CourseOffering(c, semester));
+			driver._courseOffering.put(coKey, new CourseOffering(c, semester));
+
+			System.out.println("No. of CourseOffering after Addition: " + driver._courseOffering.size());
 
 			// have added and therefore, true
 			assertTrue(co.courseOffered(co));
@@ -209,14 +223,23 @@ class JUnitR {
 			CourseOffering co = new CourseOffering(c, semester);
 			String coKey = Helper.createCourseOfferingKey(co);
 
-			int il = driver.getIndexOfLecturer(driver._courseOffering.get(coKey).getLecturer(), l);
-
-			assertFalse(il >= 0);
-			System.out.println("Cannot get CourseOffering Lecturers: " + il);
-
-			driver._courseOffering.get(coKey).addLecturer(l);
-			il = driver.getIndexOfLecturer(driver._courseOffering.get(coKey).getLecturer(), l);
 			ArrayList<Lecturer> courseLecturer = driver._courseOffering.get(coKey).getLecturer();
+			if (!courseLecturer.isEmpty())
+				for (int i = 0; i <= courseLecturer.size(); i++)
+					System.out.println("Lecturers for " + co.getCourseCode() + separator + co.getSemester() + separator
+							+ courseLecturer.get(i).getID() + separator + courseLecturer.get(i).getName());
+
+			courseLecturer.add(l);
+			courseLecturer.add(new Lecturer("t1234", "Guest Lecturer 1", "t1234", GlobalClass.Lecturer));
+			courseLecturer.add(new Lecturer("t5678", "Guest Lecturer 2", "t1234", GlobalClass.Lecturer));
+
+			if (!courseLecturer.isEmpty())
+				for (int i = 0; i < courseLecturer.size(); i++) {
+					System.out.println("Lecturers for " + co.getCourseCode() + separator + c.getCourseTitle()
+							+ separator + co.getSemester() + separator + courseLecturer.get(i).getName() + separator
+							+ courseLecturer.get(i).getName());
+				}
+			int il = driver.getIndexOfLecturer(courseLecturer, l);
 			assertEquals(courseLecturer.get(il).getID(), l.getID());
 
 		} catch (Exception e) {
@@ -236,11 +259,16 @@ class JUnitR {
 
 			String courseCode = "MATH101";
 			String title = "Maths for Beginners";
-			if (driver._courses.containsKey(courseCode))
-				System.out.println("JUnit.addCourse | Cannot find Course: " + courseCode);
-
-			driver._courses.put(courseCode, new Course(courseCode, title));
+			Course c = new Course(courseCode, title);
+			if (driver._courses.containsKey(c.getCourseCode()))
+				System.out.println("Course Exists: " + c.getCourseCode() + separator + c.getCourseTitle());
+			else
+				System.out.println("Course does not Exist: " + c.getCourseCode() + separator + c.getCourseTitle());
+			System.out.println("Number of Courses before Addition: " + driver._courses.size());
+			driver._courses.put(courseCode, c);
+			driver._courses.put(courseCode, c);
 			assertTrue(driver._courses.get(courseCode).getCourseTitle().equals(title));
+			System.out.println("Number of Courses after Addition: " + driver._courses.size());
 
 		} catch (Exception e) {
 			RMITExceptions.handleExceptions(e);

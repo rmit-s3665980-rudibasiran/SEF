@@ -1,7 +1,7 @@
 package SEF;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public class CourseOffering {
 
@@ -13,7 +13,9 @@ public class CourseOffering {
 	private int _week;
 	private int _maxStudents;
 	private ArrayList<Lecturer> _lecturer = new ArrayList<>();
-	private HashMap _waivers = new HashMap();
+
+	private TreeMap _waivers = new TreeMap();
+
 	private Boolean _active;
 
 	public CourseOffering() {
