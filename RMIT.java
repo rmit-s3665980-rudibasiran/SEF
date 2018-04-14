@@ -16,7 +16,8 @@ Date Created: 3 April 2018
 Description: RMIT CMS
 Notes: Main class, initially created as CMS.java, renamed RMIT.java on 12 Apr 2018
  */
-
+//Huani's initial push, testing.
+//Huani testing this file via github.
 public class RMIT {
 
 	public static void main(String[] args) throws FileNotFoundException {
