@@ -9,10 +9,14 @@ public class Driver {
 
 	TreeMap<String, User> _users = new TreeMap<String, User>();
 	TreeMap<String, Course> _courses = new TreeMap<String, Course>();
-	TreeMap<String, CourseOffering> _courseOffering = new TreeMap<String, CourseOffering>();
-	TreeMap<String, Enrolment> _enrolment = new TreeMap<String, Enrolment>();
+	// TreeMap<String, CourseOffering> _courseOffering = new TreeMap<String,
+	// CourseOffering>();
+	// Based on diagram, driver only connected to users and courses
+	// TreeMap<String, Enrolment> _enrolment = new TreeMap<String, Enrolment>();
 
 	// ArrayList<Enrolment> _enrolment = new ArrayList<>();
+
+	User lec = new Lecturer(null, null, null, 0);
 
 	public Driver() {
 	}
@@ -173,7 +177,17 @@ public class Driver {
 	}
 
 	public Boolean assignGrade(String studentID, String courseCode, String semester, String grade) {
-		return true;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the grade assigned to " + studentID);
+		String gradeinput = sc.nextLine();
+		if ("HD".equals(gradeinput) || "D".equals(gradeinput) || "C".equals(gradeinput) || "P".equals(gradeinput)
+				|| "NA".equals(gradeinput)) {
+			Enrolment e = new Enrolment();
+			e.setGrade(gradeinput);
+			return true;
+		}
+		System.out.println("invalid grade assigned.");
+		return null;
 	}
 
 	public Boolean assignGrade(Student s, CourseOffering co, String grade) {

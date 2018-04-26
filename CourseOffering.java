@@ -8,6 +8,7 @@ public class CourseOffering {
 	// unique key(s)
 	private Course _course;
 	private String _semester;
+	Enrolment myEnrolment = new Enrolment();
 
 	// about
 	private int _week;

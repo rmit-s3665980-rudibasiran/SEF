@@ -7,6 +7,7 @@ public class Student extends User {
 
 	private int _maxLoad;
 	private int _maxElectives;
+	Enrolment myEnrolment = new Enrolment();
 
 	public Student() {
 		super();

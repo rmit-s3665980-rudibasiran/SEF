@@ -7,6 +7,8 @@ public class Enrolment {
 	// unique key(s)
 	private Student _student;
 	private CourseOffering _courseOffering;
+	Student std = new Student();
+	CourseOffering cf = new CourseOffering();
 
 	// about
 	private String _grade;

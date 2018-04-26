@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Map.Entry;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 class JUnitH {
@@ -30,6 +31,7 @@ class JUnitH {
 			driver._enrolment.get(eKey).setGrade(grade);
 		} else {
 			System.out.println("Enrolment does not exist, cannot get grade");
+			Assert.fail("enrollment does not exist");
 		}
 
 		driver._enrolment.put(eKey, e);

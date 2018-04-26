@@ -1,6 +1,6 @@
 package SEF;
 
-public class User {
+public class User implements DisplayMenu {
 
 	// unique key(s)
 	private String _userID;
@@ -63,6 +63,21 @@ public class User {
 			}
 		}
 		return found;
+	}
+
+	@Override
+	public void displayMenu() {
+		System.out.println("=========MENU========");
+	}
+
+	@Override
+	public void getOption() {
+
+	}
+
+	@Override
+	public void exitMenu() {
+
 	}
 
 }
